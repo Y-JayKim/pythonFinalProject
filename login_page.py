@@ -31,7 +31,7 @@ class LoginWindow(MainMenu):
         self.password_label = Label(self.mid_frame, text="Password")
         self.password_entry = Entry(self.mid_frame, width=20)
 
-        self.submit_button = Button(self.bottom_frame, text="Submit")
+        self.submit_button = Button(self.bottom_frame, text="Submit", command=self._submit)
 
         # Place Widgets On Window
         # Top
@@ -45,6 +45,10 @@ class LoginWindow(MainMenu):
         self.password_entry.grid(row=1, column=1, padx=5, pady=5)
 
         self.submit_button.grid(row=1, column=1, padx=5, pady=5)
+
+    # Command after clicking submit button
+    def _submit(self):
+        pass
 
 
 if __name__ == "__main__":
