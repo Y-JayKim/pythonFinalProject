@@ -16,7 +16,6 @@ def manager_account():
             manager[row[0]] = row[1]
     return manager
 
-<<<<<<< HEAD
 
 def read_user():
     user_dict = {}
@@ -36,52 +35,17 @@ def write_user(user_dict):
 
 def user_name_check(username):
     if username in read_user():
-=======
-def read_user_accounts():
-    user_info={}
-    with open(USER_ACCOUNT_FILE, 'r') as file:
-        csv_file = csv.reader(file)
-        for row in csv_file:
-            user_info[row[0]] = row[1]
-    return user_info
-
-
-def check_user_exist(username):
-    user_dict = read_user_accounts()
-    if username in user_dict:
-        return False
-    else:
->>>>>>> c501d7055804b913fdca952d74ad024a19eab0d2
         return True
     else:
         return False
 
 
-def check_user_password(username):
-    user_dict = read_user_accounts()
-    return user_dict.get(username)
-
-def get_user_name_and_check(username):
-    if not check_user_exist(username):
-        print("\nThe Username already exists!!!\n")
-        return False
-    else:
-        print("\nThe Username does not exist!!!\n")
-        return False
-
-
 def create_user():
     username = str(input("Please Enter a username: "))
-<<<<<<< HEAD
     if user_name_check(username):
         print("User name is already exist!!")
         return False
 
-=======
-    if not check_user_exist(username):
-        return False
-    # get_user_name_and_check(username)
->>>>>>> c501d7055804b913fdca952d74ad024a19eab0d2
     password = input("Please Enter password: ")
     password_confirm = input("Please re-enter the password: ")
 
@@ -98,7 +62,6 @@ def create_user():
 
 
 def delete_user():
-<<<<<<< HEAD
     username = str(input("Please Enter a username: "))
     if not user_name_check(username):
         print("The username is not exist")
@@ -118,34 +81,6 @@ def delete_user():
     else:
         print("Invalid Input")
         return False
-=======
-    user_name = str(input("Please Enter a username: "))
-    # if check_user_exist(user_name):
-    #     return False
-    get_user_name_and_check(user_name)
-    password = input("Please Enter password: ")
-    password=str(password)
-    existing_user_password = check_user_password(user_name)
-    existing_user_password=str(existing_user_password)
-
-    if existing_user_password == password:
-        user_delete_confirm = input("Are you sure to delete your account? (y/n): ")
-        user_delete_confirm=str(user_delete_confirm)
-        if user_delete_confirm == 'y':
-            user_dict = read_user_accounts()
-            user_dict.pop(user_name)
-            new_dict=user_dict
-            with open(USER_ACCOUNT_FILE, 'w') as file:
-                csv_file = csv.writer(file)
-                for key in new_dict:
-                    csv_file.writerow([key,new_dict[key]])
-        elif user_delete_confirm == 'n':
-            return False
-    else:
-        print("Invalid password")
-        return False
-
->>>>>>> c501d7055804b913fdca952d74ad024a19eab0d2
 
 
 def report_on_users():
@@ -210,8 +145,4 @@ def main(manage_account):
 
 
 if __name__ == '__main__':
-<<<<<<< HEAD
     main(manager_account())
-=======
-    main(read_manager_account())
->>>>>>> c501d7055804b913fdca952d74ad024a19eab0d2

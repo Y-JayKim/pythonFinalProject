@@ -13,9 +13,6 @@ class LoginWindow(MainMenu):
         super().__init__(parent)
         self.master.title("Login Window")
 
-        # Checker
-        self.submit_clicked = False
-
         # FRAME
         self.top_frame = Frame(self.master)
         self.mid_frame = Frame(self.master)
@@ -52,11 +49,7 @@ class LoginWindow(MainMenu):
 
 if __name__ == "__main__":
     def hey(event):
-<<<<<<< HEAD
         print("Test Submit clicked")
-=======
-        print("Hey!")
->>>>>>> c501d7055804b913fdca952d74ad024a19eab0d2
     root = Tk()
     L = LoginWindow(root)
     L.submit_button.bind("<Button-1>", hey)
