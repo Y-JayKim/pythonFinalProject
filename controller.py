@@ -7,19 +7,52 @@
 from tkinter import *
 from tkinter import messagebox
 from login_page import LoginWindow
+from main_page import MainWindow
+import csv
+from constant import *
+
+
+# global
+page = ''
+root = Tk()
+
+
+def user_account():
+    user_dict ={}
+    with open(USER_ACCOUNT_FILE, 'r') as file:
+        csv_file = csv.reader(file)
+        for row in csv_file:
+            user_dict[row[0]] = row[1]
 
 
 def login_submit(event):
-    if not LoginPage.username_entry.get():
+    global page
+    global root
+    username = page.username_entry
+    password = page.password_entry
+
+    if username.get() in user_dict and user_dict[username.get()] == password.get():
+        root2 = Tk()
+        messagebox.showinfo("Sign In", "Log in Successfully")
+        page.master.destroy()
+        page = MainWindow(root2)
+
+    else:
+        messagebox.showinfo("Invalid", "Invalid username/password")
+        username.delete(0, "end")
+        password.delete(0, "end")
 
 
 def main():
-    root = Tk()
-    LoginPage = LoginWindow(root)
-    global LoginPage
-    LoginPage.submit_button.bind("<Button-1>", login_submit)
+    global page
+    global root
+    page = LoginWindow(root)
+
+    page.submit_button.bind("<Button-1>", login_submit)
+
     mainloop()
 
 
 if __name__ == '__main__':
+    user_account()
     main()
