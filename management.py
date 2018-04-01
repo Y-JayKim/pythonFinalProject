@@ -14,27 +14,43 @@ def read_manager_account():
         csv_file = csv.reader(file)
         for row in csv_file:
             manager[row[0]] = row[1]
-
     return manager
 
-
-def check_user_exist(username):
-    username_list = []
+def read_user_accounts():
+    user_info={}
     with open(USER_ACCOUNT_FILE, 'r') as file:
         csv_file = csv.reader(file)
         for row in csv_file:
-            username_list.append(row[0])
-    if username in username_list:
+            user_info[row[0]] = row[1]
+    return user_info
+
+
+def check_user_exist(username):
+    user_dict = read_user_accounts()
+    if username in user_dict:
         return False
     else:
         return True
 
 
-def create_user():
-    username = input("Please Enter a username: ")
-    if not check_user_exist(username) or username == '':
-        print("\nInvalid Input!!\n")
+def check_user_password(username):
+    user_dict = read_user_accounts()
+    return user_dict.get(username)
+
+def get_user_name_and_check(username):
+    if not check_user_exist(username):
+        print("\nThe Username already exists!!!\n")
         return False
+    else:
+        print("\nThe Username does not exist!!!\n")
+        return False
+
+
+def create_user():
+    username = str(input("Please Enter a username: "))
+    if not check_user_exist(username):
+        return False
+    # get_user_name_and_check(username)
     password = input("Please Enter password: ")
     password_confirm = input("Please re-enter the password: ")
 
@@ -51,7 +67,32 @@ def create_user():
 
 
 def delete_user():
-    pass
+    user_name = str(input("Please Enter a username: "))
+    # if check_user_exist(user_name):
+    #     return False
+    get_user_name_and_check(user_name)
+    password = input("Please Enter password: ")
+    password=str(password)
+    existing_user_password = check_user_password(user_name)
+    existing_user_password=str(existing_user_password)
+
+    if existing_user_password == password:
+        user_delete_confirm = input("Are you sure to delete your account? (y/n): ")
+        user_delete_confirm=str(user_delete_confirm)
+        if user_delete_confirm == 'y':
+            user_dict = read_user_accounts()
+            user_dict.pop(user_name)
+            new_dict=user_dict
+            with open(USER_ACCOUNT_FILE, 'w') as file:
+                csv_file = csv.writer(file)
+                for key in new_dict:
+                    csv_file.writerow([key,new_dict[key]])
+        elif user_delete_confirm == 'n':
+            return False
+    else:
+        print("Invalid password")
+        return False
+
 
 
 def report_on_users():
@@ -68,16 +109,18 @@ def transaction():
 
 def main(manage_account):
     print("--------------------------------------------------------------------\n")
+    print("--------------------------------------------------------------------\n")
     print("Hello, this program is for managing bank account\n")
     print("--------------------------------------------------------------------\n")
-    print("Please Enter your username and password")
+    print("--------------------------------------------------------------------\n\n")
+    print("Please Enter your username and password\n")
     username = input("Username:  ")
     password = input("Password:  ")
 
     while username != '' and password != '':
         if username in manage_account and password == manage_account[username]:
             print("Please select an option\n\n")
-            print("1.Create an User Account  | 2.Delete a exist User Account \n3.Report on User          | " \
+            print("1.Create an User Account  | 2.Delete existing User Account \n3.Report on User          | " \
                   + "4.Detail information of an Account \n5.Transaction             | 0.Exit\n\n")
             selection = input("Please Enter a Number above: ")
             while selection != '':
@@ -86,6 +129,7 @@ def main(manage_account):
                     selection = '6'
                 elif selection == '2':
                     delete_user()
+                    selection = '6'
                 elif selection == '3':
                     report_on_users()
                 elif selection == '4':
