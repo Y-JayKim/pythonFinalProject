@@ -32,8 +32,8 @@ def check_user_exist(username):
 
 def create_user():
     username = input("Please Enter a username: ")
-    if not check_user_exist(username):
-        print("\nThe Username is already exist!!!\n")
+    if not check_user_exist(username) or username == '':
+        print("\nInvalid Input!!\n")
         return False
     password = input("Please Enter password: ")
     password_confirm = input("Please re-enter the password: ")
@@ -68,11 +68,9 @@ def transaction():
 
 def main(manage_account):
     print("--------------------------------------------------------------------\n")
-    print("--------------------------------------------------------------------\n")
     print("Hello, this program is for managing bank account\n")
     print("--------------------------------------------------------------------\n")
-    print("--------------------------------------------------------------------\n\n")
-    print("Please Enter your username and password\n")
+    print("Please Enter your username and password")
     username = input("Username:  ")
     password = input("Password:  ")
 
