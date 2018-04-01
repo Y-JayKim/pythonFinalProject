@@ -11,6 +11,7 @@ class MainMenu:
     def __init__(self, parent):
         self.master = parent
         self.master.title("Login Window")
+        # self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold", slant="italic")
 
         # Calling Menu Widget
         self.main_menu = Menu(self.master)
@@ -34,6 +35,19 @@ class MainMenu:
         self.file_menu.add_command(label="Print")
         self.file_menu.add_separator()
         self.file_menu.add_command(label="Exit", command=self.master.quit)
+
+        # place window on center
+        # Gets the requested values of the height and width.
+        self._window_width = self.master.winfo_reqwidth()
+        self._window_height = self.master.winfo_reqheight()
+        print("Width", self._window_width, "Height", self._window_height)
+
+        # Gets both half the screen width/height and window width/height
+        self.position_right = int(self.master.winfo_screenwidth() / 2 - self._window_width / 2)
+        self.position_down = int(self.master.winfo_screenheight() / 2 - self._window_height / 2)
+
+        # Positions the window in the center of the page.
+        self.master.geometry("+{}+{}".format(self.position_right, self.position_down))
 
 
 if __name__ == "__main__":

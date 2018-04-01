@@ -29,9 +29,9 @@ class LoginWindow(MainMenu):
         self.username_entry = Entry(self.mid_frame, width=20)
 
         self.password_label = Label(self.mid_frame, text="Password")
-        self.password_entry = Entry(self.mid_frame, width=20)
+        self.password_entry = Entry(self.mid_frame, show='*', width=20)
 
-        self.submit_button = Button(self.bottom_frame, text="Submit", command=self._submit)
+        self.submit_button = Button(self.bottom_frame, text="Submit")
 
         # Place Widgets On Window
         # Top
@@ -46,12 +46,11 @@ class LoginWindow(MainMenu):
 
         self.submit_button.grid(row=1, column=1, padx=5, pady=5)
 
-    # Command after clicking submit button
-    def _submit(self):
-        pass
-
 
 if __name__ == "__main__":
+    def hey(event):
+        print("Test Submit clicked")
     root = Tk()
-    LoginWindow(root)
+    L = LoginWindow(root)
+    L.submit_button.bind("<Button-1>", hey)
     mainloop()

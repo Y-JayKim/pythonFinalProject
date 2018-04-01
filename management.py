@@ -8,33 +8,44 @@ import csv
 from constant import *
 
 
-def read_manager_account():
+def manager_account():
     manager = {}
     with open(MANAGER_ACCOUNT_FILE, 'r') as file:
         csv_file = csv.reader(file)
         for row in csv_file:
             manager[row[0]] = row[1]
-
     return manager
 
 
-def check_user_exist(username):
-    username_list = []
+def read_user():
+    user_dict = {}
     with open(USER_ACCOUNT_FILE, 'r') as file:
         csv_file = csv.reader(file)
         for row in csv_file:
-            username_list.append(row[0])
-    if username in username_list:
-        return False
-    else:
+            user_dict[row[0]] = row[1]
+    return user_dict
+
+
+def write_user(user_dict):
+    with open(USER_ACCOUNT_FILE, 'w') as file:
+        csv_file = csv.writer(file)
+        for key in user_dict:
+            csv_file.writerow([key, user_dict[key]])
+
+
+def user_name_check(username):
+    if username in read_user():
         return True
+    else:
+        return False
 
 
 def create_user():
-    username = input("Please Enter a username: ")
-    if not check_user_exist(username) or username == '':
-        print("\nInvalid Input!!\n")
+    username = str(input("Please Enter a username: "))
+    if user_name_check(username):
+        print("User name is already exist!!")
         return False
+
     password = input("Please Enter password: ")
     password_confirm = input("Please re-enter the password: ")
 
@@ -51,7 +62,25 @@ def create_user():
 
 
 def delete_user():
-    pass
+    username = str(input("Please Enter a username: "))
+    if not user_name_check(username):
+        print("The username is not exist")
+        return False
+
+    confirmation = input('Are you sure to delete {} account? (y/n): '.format(username))
+
+    if confirmation == 'y' or confirmation == 'yes':
+        user_dict = read_user()
+        user_dict.pop(username)
+        write_user(user_dict)
+        return True
+
+    elif confirmation == 'n' or confirmation == 'no':
+        return False
+
+    else:
+        print("Invalid Input")
+        return False
 
 
 def report_on_users():
@@ -68,16 +97,18 @@ def transaction():
 
 def main(manage_account):
     print("--------------------------------------------------------------------\n")
+    print("--------------------------------------------------------------------\n")
     print("Hello, this program is for managing bank account\n")
     print("--------------------------------------------------------------------\n")
-    print("Please Enter your username and password")
+    print("--------------------------------------------------------------------\n\n")
+    print("Please Enter your username and password\n")
     username = input("Username:  ")
     password = input("Password:  ")
 
     while username != '' and password != '':
         if username in manage_account and password == manage_account[username]:
             print("Please select an option\n\n")
-            print("1.Create an User Account  | 2.Delete a exist User Account \n3.Report on User          | " \
+            print("1.Create an User Account  | 2.Delete existing User Account \n3.Report on User          | " \
                   + "4.Detail information of an Account \n5.Transaction             | 0.Exit\n\n")
             selection = input("Please Enter a Number above: ")
             while selection != '':
@@ -86,6 +117,7 @@ def main(manage_account):
                     selection = '6'
                 elif selection == '2':
                     delete_user()
+                    selection = '6'
                 elif selection == '3':
                     report_on_users()
                 elif selection == '4':
@@ -113,4 +145,4 @@ def main(manage_account):
 
 
 if __name__ == '__main__':
-    main(read_manager_account())
+    main(manager_account())
