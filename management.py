@@ -5,9 +5,15 @@
 # Yeonjae Kim   Minsu Song
 #
 import csv
+import json
 from constant import *
 from account import *
 
+
+
+# global
+user_dict = {}
+userInfo_dict = {}
 
 def manager_account():
     manager = {}
@@ -19,31 +25,45 @@ def manager_account():
 
 
 def read_user():
-    user_dict = {}
+    global user_dict
+    global userInfo_dict
+
     with open(USER_ACCOUNT_FILE, 'r') as file:
         csv_file = csv.reader(file)
         for row in csv_file:
-            user_dict[row[0]] = row[1]
-    return user_dict
+            if row != []:
+                user_dict[row[0]] = row[1]
 
+    with open(USER_INFO_FILE, 'r') as file2:
+        json_file = file2.read()
+        userInfo_dict = json.dumps(json_file)
 
-def write_user(user_dict):
+def write_user():
+    global user_dict
     with open(USER_ACCOUNT_FILE, 'w') as file:
         csv_file = csv.writer(file)
         for key in user_dict:
             csv_file.writerow([key, user_dict[key]])
+    read_user()
 
+def write_userInfo():
+    account[account_num] = ['Started']
+    with open(account_num, 'w') as file:
+        csv_file = csv.writer(file)
+        for key in user_dict:
+            csv_file.writerow([key, user_dict[key]])
+    read_user()
 
-def user_name_check(username):
-    if username in read_user():
-        return True
-    else:
-        return False
+def new_account_to_user(account_type):
+    """"add account to the user"""
+    
 
 
 def create_user():
+    global user_dict
+    print(user_dict)
     username = str(input("Please Enter a username: "))
-    if user_name_check(username):
+    if username in user_dict:
         print("User name already exists!!")
         return False
 
@@ -55,25 +75,28 @@ def create_user():
         print("Please type yes or y to continue.\nIf you want to cancel, please enter n or no\n")
         selection = input("---> :")
         if selection == 'y' or selection == 'yes':
-            with open(USER_ACCOUNT_FILE, 'a') as file:
-                csv_file = csv.writer(file)
-                csv_file.writerow([username, password])
+            user_dict[username] = password
+            write_user()
+
         elif selection == 'n' or selection == 'no':
             print("Okay ByeBye")
-
+    else:
+        print("Those password did not match.")
 
 def delete_user():
+    global user_dict
+
     username = str(input("Please Enter a username: "))
-    if not user_name_check(username):
-        print("The username does not exist")
+    if not username in user_dict:
+        print("\nThe username does not exist")
         return False
 
     confirmation = input('Are you sure to delete {} account? (y/n): '.format(username))
 
     if confirmation == 'y' or confirmation == 'yes':
-        user_dict = read_user()
         user_dict.pop(username)
-        write_user(user_dict)
+        write_user()
+        print("Deletion Completed")
         return True
 
     elif confirmation == 'n' or confirmation == 'no':
@@ -84,22 +107,17 @@ def delete_user():
         return False
 
 
-def report_on_users():
+def transaction_report():
     pass
 
 
 def account_detail():
     """Shows account info such as account number, balance and name"""
+
     username = str(input("Please Enter a username: "))
-    if not user_name_check(username):
+    if not username in user_dict:
         print("The username does not exist")
         return False
-
-    password = input("Please Enter password: ")
-    password_confirm = input("Please re-enter the password: ")
-
-    #if password == password_confirm:
-
 
     acc_detail=Account(username)
 
@@ -122,7 +140,7 @@ def main(manage_account):
         if username in manage_account and password == manage_account[username]:
             print("Please select an option\n\n")
             print("1.Create an User Account  | 2.Delete existing User Account \n3.Report on User          | " \
-                  + "4.Detail information of an Account \n5.Transaction             | 0.Exit\n\n")
+                  + "4.Detail information of an Account \n5.open a new account        | 0.Exit\n\n")
             selection = input("Please Enter a Number above: ")
             while selection != '':
                 if selection == '1':
@@ -132,14 +150,14 @@ def main(manage_account):
                     delete_user()
                     selection = '6'
                 elif selection == '3':
-                    report_on_users()
+                    transaction_report()
                 elif selection == '4':
                     account_detail()
                 elif selection == '5':
                     transaction()
                 elif selection == '6':
                     print("1.Create an User Account  | 2.Delete a exist User Account \n3.Report on User          | "\
-                          + "4.Detail information of an Account \n5.Transaction             | 0.Exit\n")
+                          + "4.Detail information of an Account \n5.open a new account       | 0.Exit\n")
                     selection = input("Please Enter a Number above: ")
                 elif selection == '0' or selection == 'exit':
                     break
@@ -158,4 +176,5 @@ def main(manage_account):
 
 
 if __name__ == '__main__':
+    read_user()
     main(manager_account())
