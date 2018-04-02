@@ -40,7 +40,6 @@ class MainMenu:
         # Gets the requested values of the height and width.
         self._window_width = self.master.winfo_reqwidth()
         self._window_height = self.master.winfo_reqheight()
-        print("Width", self._window_width, "Height", self._window_height)
 
         # Gets both half the screen width/height and window width/height
         self.position_right = int(self.master.winfo_screenwidth() / 2 - self._window_width / 2)

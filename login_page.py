@@ -32,19 +32,21 @@ class LoginWindow(MainMenu):
         self.password_entry = Entry(self.mid_frame, show='*', width=20)
 
         self.submit_button = Button(self.bottom_frame, text="Submit")
-
+        self.register_lost_label = Label(self.bottom_frame, text="lost username/password\nregister an username", \
+                                         foreground='blue', cursor="hand2")
         # Place Widgets On Window
         # Top
-        self.login_label.grid(row=0, column=1, padx=5, pady=10)
+        self.login_label.grid(row=0, column=2, padx=5, pady=10)
 
         # Bottom
-        self.username_label.grid(row=0, column=0, sticky=E, padx=5, pady=5)
-        self.username_entry.grid(row=0, column=1, padx=5, pady=5)
+        self.username_label.grid(row=0, column=1, sticky=E, padx=5, pady=5)
+        self.username_entry.grid(row=0, column=2, padx=5, pady=5)
 
-        self.password_label.grid(row=1, column=0, sticky=E, padx=5, pady=5)
-        self.password_entry.grid(row=1, column=1, padx=5, pady=5)
+        self.password_label.grid(row=1, column=1, sticky=E, padx=5, pady=5)
+        self.password_entry.grid(row=1, column=2, padx=5, pady=5)
 
-        self.submit_button.grid(row=1, column=1, padx=5, pady=5)
+        self.submit_button.grid(row=1, column=2, padx=5, pady=5)
+        self.register_lost_label.grid(row=2, column=2, sticky=E)
 
 
 if __name__ == "__main__":
