@@ -4,6 +4,8 @@
 #
 # Yeonjae Kim   Minsu Song
 #
+import sys
+sys.path.insert(0, './BankAccount/')
 import csv
 import json
 from constant import *
@@ -56,7 +58,7 @@ def write_userInfo():
 
 def new_account_to_user(account_type):
     """"add account to the user"""
-    
+
 
 
 def create_user():

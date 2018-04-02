@@ -4,6 +4,8 @@
 #
 # Yeonjae Kim  /  Minsu Song
 #
+import sys
+sys.path.insert(0, './GUI/')
 from tkinter import *
 from tkinter import messagebox
 from login_page import LoginWindow
@@ -99,7 +101,8 @@ class Controller:
         with open(USER_ACCOUNT_FILE, 'r') as file:
             csv_file = csv.reader(file)
             for row in csv_file:
-                user_file[row[0]] = row[1]
+                if not row == []:
+                    user_file[row[0]] = row[1]
         return user_file
 
 
