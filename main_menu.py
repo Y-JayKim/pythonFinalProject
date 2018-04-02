@@ -42,8 +42,8 @@ class MainMenu:
         self._window_height = self.master.winfo_reqheight()
 
         # Gets both half the screen width/height and window width/height
-        self.position_right = int(self.master.winfo_screenwidth() / 2 - self._window_width / 2)
-        self.position_down = int(self.master.winfo_screenheight() / 2 - self._window_height / 2)
+        self.position_right = int(self.master.winfo_screenwidth() / 3 - self._window_width / 3)
+        self.position_down = int(self.master.winfo_screenheight() / 3 - self._window_height / 3)
 
         # Positions the window in the center of the page.
         self.master.geometry("+{}+{}".format(self.position_right, self.position_down))

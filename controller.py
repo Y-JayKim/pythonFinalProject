@@ -10,6 +10,7 @@ from login_page import LoginWindow
 from current_balance import BalanceWindow
 from selection import SelectionWindow
 from main_page import MainWindow
+# from qr_login import BarCodeScanner
 import csv
 from constant import *
 
@@ -23,6 +24,8 @@ class Controller:
         self.LoginWindow.submit_button.bind("<Button-1>", self._login_page)
         self.LoginWindow.password_entry.bind("<Return>", self._login_page)
         self.LoginWindow.register_lost_label.bind("<Button-1>", self._lost_register)
+
+        self.LoginWindow.qr_button.bind("<Button-1>", self.qr_login)
 
 # ---------------------------------SignIn Page function ----------------------------------------------------
     def _login_page(self, event):
@@ -41,6 +44,11 @@ class Controller:
     def _lost_register(self, event):
         messagebox.showinfo("Info", "Please contact to one of \nour Agent to create/find username")
 
+    def qr_login(self, event):
+        # scanner = BarCodeScanner()
+        # scanner.start()
+        pass
+
 # ---------------------------------Main Page function ----------------------------------------------------
     def _main_page(self):
         self.master.destroy()
@@ -58,16 +66,16 @@ class Controller:
         self._selection_page('deposit')
 
     def withdraw(self, event):
-        pass
+        self._selection_page('withdraw')
 
     def check_balance(self, event):
-        pass
+        self._selection_page('check balance')
 
     def transfer(self, event):
-        pass
+        self._selection_page('transfer')
 
     def print_info(self, event):
-        pass
+        self._selection_page("print Information")
 
     def help(self, event):
         pass

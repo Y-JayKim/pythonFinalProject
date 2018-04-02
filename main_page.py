@@ -23,15 +23,15 @@ class MainWindow(MainMenu):
         self.right_frame.grid(column=2, row=0, padx=10, pady=30)
 
         # Widgets and Bind to Events
-        self.left_top_button = Button(self.left_frame, text="Deposit")
-        self.left_mid_button = Button(self.left_frame, text="Withdraw")
-        self.left_bottom_button = Button(self.left_frame, text="Check Balance")
+        self.left_top_button = Button(self.left_frame, text="Deposit", width=10, height=5)
+        self.left_mid_button = Button(self.left_frame, text="Withdraw", width=10, height=5)
+        self.left_bottom_button = Button(self.left_frame, text="Check\nBalance", width=10, height=5)
 
-        self.main_image = Label(self.mid_frame, text="IMAGE")
+        self.main_image = Label(self.mid_frame, text="IMAGE", width=20, height=20)
 
-        self.right_top_button = Button(self.right_frame, text="Transfer")
-        self.right_mid_button = Button(self.right_frame, text="Print Account\n Information")
-        self.right_bottom_button = Button(self.right_frame, text="Help")
+        self.right_top_button = Button(self.right_frame, text="Transfer", width=10, height=5)
+        self.right_mid_button = Button(self.right_frame, text="Print Account\n Information", width=10, height=5)
+        self.right_bottom_button = Button(self.right_frame, text="Help", width=10, height=5)
 
         # Place Widgets On Window
         # Left

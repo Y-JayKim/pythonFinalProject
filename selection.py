@@ -14,14 +14,15 @@ class SelectionWindow(MainMenu):
         self.master.title("selection Window")
 
         # Frame
-        self.top_frame = Frame(self.master, width=500, height=500)
-        self.bottom_frame = Frame(self.master, width=500, height=500)
+        self.top_frame = Frame(self.master)
+        self.bottom_frame = Frame(self.master)
 
         self.top_frame.grid(row=0, padx=10, pady=30)
         self.bottom_frame.grid(row=1, padx=10, pady=30)
 
         # Widgets and Bind to Events
-        self.explanation_label = Label(self.top_frame, text='Please Select Account You want to {} money'.format(option))
+        self.explanation_label = Label(self.top_frame, \
+                                       text='Please Select Account You want to {}'.format(option))
         self.saving_button = Button(self.bottom_frame, text="Saving", width=10, height=5)
         self.chequing_button = Button(self.bottom_frame, text="Chequing", width=10, height=5)
 
