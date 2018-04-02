@@ -6,6 +6,7 @@
 #
 import csv
 from constant import *
+from account import *
 
 
 def manager_account():
@@ -43,7 +44,7 @@ def user_name_check(username):
 def create_user():
     username = str(input("Please Enter a username: "))
     if user_name_check(username):
-        print("User name is already exist!!")
+        print("User name already exists!!")
         return False
 
     password = input("Please Enter password: ")
@@ -64,7 +65,7 @@ def create_user():
 def delete_user():
     username = str(input("Please Enter a username: "))
     if not user_name_check(username):
-        print("The username is not exist")
+        print("The username does not exist")
         return False
 
     confirmation = input('Are you sure to delete {} account? (y/n): '.format(username))
@@ -88,7 +89,19 @@ def report_on_users():
 
 
 def account_detail():
-    pass
+    """Shows account info such as account number, balance and name"""
+    username = str(input("Please Enter a username: "))
+    if not user_name_check(username):
+        print("The username does not exist")
+        return False
+
+    password = input("Please Enter password: ")
+    password_confirm = input("Please re-enter the password: ")
+
+    #if password == password_confirm:
+
+
+    acc_detail=Account(username)
 
 
 def transaction():
