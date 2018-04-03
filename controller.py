@@ -65,18 +65,28 @@ class Controller:
 
     def deposit(self, event):
         self._selection_page('deposit')
+        self.CODE = 1
+        return self.CODE
 
     def withdraw(self, event):
         self._selection_page('withdraw')
+        self.CODE = 1
+        return self.CODE
 
     def transfer(self, event):
         self._selection_page('transfer')
+        self.CODE = 1
+        return self.CODE
 
     def check_balance(self, event):
         self._selection_page('check balance')
+        self.CODE = 2
+        return self.CODE
 
     def print_info(self, event):
         self._selection_page("print Information")
+        self.CODE = 3
+        return self.CODE
 
     def help(self, event):
         pass

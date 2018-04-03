@@ -4,12 +4,12 @@
 #
 # Yeonjae Kim   Minsu Song
 #
+from constant import *
 import sys
 sys.path.insert(0, './BankAccount/')
+from account import *
 import csv
 import json
-from constant import *
-from account import *
 
 
 
