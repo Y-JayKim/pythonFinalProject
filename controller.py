@@ -66,33 +66,51 @@ class Controller:
 
     def deposit(self, event):
         self._selection_page('deposit')
+        self.CODE = 1
+        return self.CODE
 
     def withdraw(self, event):
         self._selection_page('withdraw')
-
-    def check_balance(self, event):
-        self._selection_page('check balance')
+        self.CODE = 1
+        return self.CODE
 
     def transfer(self, event):
         self._selection_page('transfer')
+        self.CODE = 1
+        return self.CODE
+
+    def check_balance(self, event):
+        self._selection_page('check balance')
+        self.CODE = 2
+        return self.CODE
 
     def print_info(self, event):
         self._selection_page("print Information")
+        self.CODE = 3
+        return self.CODE
 
     def help(self, event):
         pass
 
 # -----------------------------------Selection Page--------------------------------------------------------
+
     def _selection_page(self, option):
         self.master.destroy()
         self.master = Tk()
         selection_window = SelectionWindow(self.master, option)
 
-        selection_window.saving_button.bind("<Button-1>", self._account)
-        selection_window.chequing_button.bind("<Button-1>", self._account)
+        selection_window.saving_button.bind("<Button-1>", self._amount_select)
+        selection_window.chequing_button.bind("<Button-1>", self._amount_select)
 
-    def _account(self, event):
-        messagebox.showinfo("Button", "Button is clicked")
+    def _amount_select(self, event):
+        self.master.destroy()
+        self.master = Tk()
+        if self.CODE == 1:
+            BalanceWindow(self.master)
+        elif self.CODE == 2:
+            messagebox.showinfo("Button", "Balance Check")
+        elif self.CODE == 3:
+            messagebox.showinfo("Button", "Information Check")
 
 # -------------------------------------------------------------------------------------------
     @property
