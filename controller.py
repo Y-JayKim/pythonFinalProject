@@ -19,7 +19,6 @@ from constant import *
 
 class Controller:
     def __init__(self, parent):
-
         self.master = parent
 
         self.LoginWindow = LoginWindow(self.master)
@@ -66,28 +65,18 @@ class Controller:
 
     def deposit(self, event):
         self._selection_page('deposit')
-        self.CODE = 1
-        return self.CODE
 
     def withdraw(self, event):
         self._selection_page('withdraw')
-        self.CODE = 1
-        return self.CODE
 
     def transfer(self, event):
         self._selection_page('transfer')
-        self.CODE = 1
-        return self.CODE
 
     def check_balance(self, event):
         self._selection_page('check balance')
-        self.CODE = 2
-        return self.CODE
 
     def print_info(self, event):
         self._selection_page("print Information")
-        self.CODE = 3
-        return self.CODE
 
     def help(self, event):
         pass
@@ -103,14 +92,15 @@ class Controller:
         selection_window.chequing_button.bind("<Button-1>", self._amount_select)
 
     def _amount_select(self, event):
-        self.master.destroy()
-        self.master = Tk()
-        if self.CODE == 1:
-            BalanceWindow(self.master)
-        elif self.CODE == 2:
-            messagebox.showinfo("Button", "Balance Check")
-        elif self.CODE == 3:
-            messagebox.showinfo("Button", "Information Check")
+        pass
+        # self.master.destroy()
+        # self.master = Tk()
+        # if self.CODE == 1:
+        #     BalanceWindow(self.master)
+        # elif self.CODE == 2:
+        #     messagebox.showinfo("Button", "Balance Check")
+        # elif self.CODE == 3:
+        #     messagebox.showinfo("Button", "Information Check")
 
 # -------------------------------------------------------------------------------------------
     @property
