@@ -4,18 +4,19 @@
 #
 # Yeonjae Kim   Minsu Song
 #
+
+import csv
+import json
 from constant import *
 import sys
 sys.path.insert(0, './BankAccount/')
 from account import *
-import csv
-import json
-
 
 
 # global
 user_dict = {}
 userInfo_dict = {}
+
 
 def manager_account():
     manager = {}
@@ -48,6 +49,7 @@ def write_user():
             csv_file.writerow([key, user_dict[key]])
     read_user()
 
+
 def write_userInfo():
     account[account_num] = ['Started']
     with open(account_num, 'w') as file:
@@ -56,9 +58,10 @@ def write_userInfo():
             csv_file.writerow([key, user_dict[key]])
     read_user()
 
+
 def new_account_to_user(account_type):
     """"add account to the user"""
-
+    pass
 
 
 def create_user():

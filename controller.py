@@ -21,6 +21,8 @@ class Controller:
     def __init__(self, parent):
         self.master = parent
 
+        self.action = 0
+
         self.LoginWindow = LoginWindow(self.master)
         self.LoginWindow.submit_button.bind("<Button-1>", self._login_page)
         self.LoginWindow.password_entry.bind("<Return>", self._login_page)
@@ -65,28 +67,28 @@ class Controller:
 
     def deposit(self, event):
         self._selection_page('deposit')
-        self.CODE = 1
-        return self.CODE
+        self.action = 1
+        return self.action
 
     def withdraw(self, event):
         self._selection_page('withdraw')
-        self.CODE = 1
-        return self.CODE
+        self.action = 1
+        return self.action
 
     def transfer(self, event):
         self._selection_page('transfer')
-        self.CODE = 1
-        return self.CODE
+        self.action = 1
+        return self.action
 
     def check_balance(self, event):
         self._selection_page('check balance')
-        self.CODE = 2
-        return self.CODE
+        self.action = 2
+        return self.action
 
     def print_info(self, event):
         self._selection_page("print Information")
-        self.CODE = 3
-        return self.CODE
+        self.action = 3
+        return self.action
 
     def help(self, event):
         pass
@@ -102,17 +104,23 @@ class Controller:
         selection_window.chequing_button.bind("<Button-1>", self._amount_select)
 
     def _amount_select(self, event):
-        pass
-        # self.master.destroy()
-        # self.master = Tk()
-        # if self.CODE == 1:
-        #     BalanceWindow(self.master)
-        # elif self.CODE == 2:
-        #     messagebox.showinfo("Button", "Balance Check")
-        # elif self.CODE == 3:
-        #     messagebox.showinfo("Button", "Information Check")
+        if self.action == 1:
+            self._balance_page()
+        elif self.action == 2:
+            messagebox.showinfo("Button", "Balance Check")
+        elif self.action == 3:
+            messagebox.showinfo("Button", "Information Check")
 
-# -------------------------------------------------------------------------------------------
+# ---------------------------------------Current Balance-----------------------------------------
+    def _balance_page(self):
+        self.master.destroy()
+        self.master = Tk()
+
+        balance_window = BalanceWindow(self.master)
+
+        balance_window.number1_button.config(command="")
+
+    # -------------------------------------------------------------------------------------------
     @property
     def user_dict(self):
         user_file = {}

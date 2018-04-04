@@ -27,7 +27,8 @@ class MainWindow(MainMenu):
         self.left_mid_button = Button(self.left_frame, text="Withdraw", width=10, height=5)
         self.left_bottom_button = Button(self.left_frame, text="Check\nBalance", width=10, height=5)
 
-        self.main_image = Label(self.mid_frame, text="IMAGE", width=20, height=20)
+        self.logo_image = PhotoImage(file="logo.png")
+        self.main_image = Label(self.mid_frame, image=self.logo_image, width=70, height=70, cursor="hand2")
 
         self.right_top_button = Button(self.right_frame, text="Transfer", width=10, height=5)
         self.right_mid_button = Button(self.right_frame, text="Print Account\n Information", width=10, height=5)
