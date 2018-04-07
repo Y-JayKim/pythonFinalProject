@@ -4,7 +4,11 @@
 #
 # Yeonjae Kim  /  Minsu Song
 #
+
 from tkinter import *
+import os
+import sys
+from main_page import *
 
 
 class MainMenu:
@@ -30,7 +34,7 @@ class MainMenu:
         self.main_menu.add_cascade(label="Help", menu=self.help_menu)
 
         # add command in menus
-        self.file_menu.add_command(label="New Window")
+        self.file_menu.add_command(label="New Window", command=self._open_newwindow)
         self.file_menu.add_command(label="Import Setting")
         self.file_menu.add_command(label="Print")
         self.file_menu.add_separator()
@@ -47,6 +51,11 @@ class MainMenu:
 
         # Positions the window in the center of the page.
         self.master.geometry("+{}+{}".format(self.position_right, self.position_down))
+
+    def _open_newwindow(self):
+        self.master.destroy()
+        self.master = Tk()
+        new_window=MainWindow(self.master)
 
 
 if __name__ == "__main__":

@@ -122,6 +122,7 @@ class Controller:
 
     # -------------------------------------------------------------------------------------------
     @property
+
     def user_dict(self):
         user_file = {}
         with open(USER_ACCOUNT_FILE, 'r') as file:
