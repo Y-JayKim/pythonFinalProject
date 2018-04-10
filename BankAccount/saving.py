@@ -27,9 +27,6 @@ class Saving(Account):
     def cheque(self, amount=None):
         return False
 
-    def __str__(self):
-        return "saving"
-
     def __repr__(self):
         return 'saving'
 

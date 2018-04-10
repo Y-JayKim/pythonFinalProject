@@ -17,10 +17,6 @@ from term_saving import TermSaving
 
 # global
 user_dict = {}
-userInfo_dict = {}
-# deposit_account = 10000
-# saving_account = 20000
-# term_saving_account = 30000
 
 
 def manager_account():
@@ -32,98 +28,96 @@ def manager_account():
     return manager
 
 
-def read_user():
-    global user_dict
-    global userInfo_dict
-
-    with open(USER_ACCOUNT_FILE, 'r') as file:
-        csv_file = csv.reader(file)
-        for row in csv_file:
-            if row != []:
-                user_dict[row[0]] = row[1]
-
-    with open(USER_INFO_FILE, 'r') as file2:
-        json_file = file2.read()
-        userInfo_dict = json.dumps(json_file)
-
-def write_user():
-    global user_dict
-    with open(USER_ACCOUNT_FILE, 'w') as file:
-        csv_file = csv.writer(file)
-        for key in user_dict:
-            csv_file.writerow([key, user_dict[key]])
-    read_user()
+# def read_user():
+#     global user_dict
+#     global userInfo_dict
+#
+#     with open(USER_ACCOUNT_FILE, 'r') as file:
+#         csv_file = csv.reader(file)
+#         for row in csv_file:
+#             if row != []:
+#                 user_dict[row[0]] = row[1]
+#
+#     with open(USER_INFO_FILE, 'r') as file2:
+#         json_file = file2.read()
+#         userInfo_dict = json.dumps(json_file)
 
 
-def write_userInfo():
-    account[account_num] = ['Started']
-    with open(account_num, 'w') as file:
-        csv_file = csv.writer(file)
-        for key in user_dict:
-            csv_file.writerow([key, user_dict[key]])
-    read_user()
+# def write_user():
+#     global user_dict
+#     with open(USER_ACCOUNT_FILE, 'w') as file:
+#         csv_file = csv.writer(file)
+#         for key in user_dict:
+#             csv_file.writerow([key, user_dict[key]])
+#     read_user()
 
 
-def new_account_to_user(account_type):
-    """"add account to the user"""
-    pass
+# def write_userInfo():
+#     account[account_num] = ['Started']
+#     with open(account_num, 'w') as file:
+#         csv_file = csv.writer(file)
+#         for key in user_dict:
+#             csv_file.writerow([key, user_dict[key]])
+#     read_user()
 
 
-# 어카운트가 하드코드임
+#------------------ Creating Account---------------------------------
 def create():
     try:
-        sin_num = int(input("Please Enter a SIN number: "))
-        username = input("Please Enter the Client's Name: ")
+        sin = int(input("Please Enter a SIN number: "))
 
-        accounts = [Chequing(username), Saving(username), TermSaving(username)]
-
-        if len(str(sin_num)) == 9:
+        if len(str(sin)) == 9:
             account_selection = input("Which account do you want to create?:\t")
 
-            for account in accounts:
-                if str(account) == account_selection:
-                    create_account(sin_num, account)
-                print('Wrong account. Please Select One of These: {}'.format(str(i) for i in accounts))
+            for account in ACCOUNTS:
+                if account == account_selection:
+                    create_account(sin, account)
+                    return True
+            print('\nWrong account. Please Select One of These: {}\n'.format(ACCOUNTS))
+
         else:
-            print("Invalid SIN number.")
+            print("\nInvalid SIN number.\n")
     except ValueError:
-        print("Invalid SIN Number! Please try again later.")
+        print("\nInvalid SIN Number! Please try again later.\n")
 
 
-def create_account(sin_num, account):
+def create_account(sin, account):
     global user_dict
+
+    if sin not in user_dict:
+        username = input("Please Enter the Client's Name: ")
+        user_dict[sin] = [username]
+
+    username = user_dict[sin][0]
+
+    if account == 'chequing':
+        user_dict[sin].append(Chequing(username))
+    elif account == 'saving':
+        user_dict[sin].append(Saving(username))
+    elif account == 'term saving':
+        user_dict[sin].append(TermSaving(username))
+    else:
+        print('Erorr!! Handling is needed')
     print(user_dict)
 
-    if sin_num not in user_dict:
-        user_dict[sin_num] = []
 
-    if account not in user_dict[sin_num]:
-        if account == 'deposit':
-            pass
-    else:
-        print("This user already has this account")
-
-
-def delete_user():
+def delete_account():
     global user_dict
+    try:
+        sin = int(input("Please Enter SIN you want to delete account from:\t"))
 
-    account_num = str(input("Please Enter an account number: "))
-    if not username in user_dict:
-        print("\nNot existing Account number")
-        return False
+        if sin in user_dict:
+            account_choice = input('Please enter account you want to delete:\t')
 
-    confirmation = input('Are you sure to delete {} account? (y/n): '.format(account_num))
+            for account in user_dict[sin][1:]:
+                if account_choice == repr(account):
+                    user_dict[sin].remove(account)
+        else:
+            print('\nThe Client that matches with the SIN does not exist \n')
 
-    if confirmation == 'y' or confirmation == 'yes':
-        user_dict.pop(account_num)
-        write_user()
-        print("Deletion Completed")
-        return True
-    elif confirmation == 'n' or confirmation == 'no':
-        return False
-    else:
-        print("Invalid Input")
-        return False
+        print(user_dict)
+    except ValueError:
+        print("\nInvalid SIN Number! Please try again later.\n")
 
 
 def transaction_report():
@@ -170,7 +164,7 @@ def main(manage_account):
                     create()
                     selection = '6'
                 elif selection == '2':
-                    delete_user()
+                    delete_account()
                     selection = '6'
                 elif selection == '3':
                     transaction_report()
@@ -199,5 +193,5 @@ def main(manage_account):
 
 
 if __name__ == '__main__':
-    read_user()
+    # read_user()
     main(manager_account())

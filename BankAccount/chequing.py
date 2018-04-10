@@ -39,9 +39,6 @@ class Chequing(Account):
     def interest(self):
         return False
 
-    def __str__(self):
-        return 'chequing'
-
     def __repr__(self):
         return 'chequing'
 

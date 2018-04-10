@@ -33,11 +33,8 @@ class TermSaving(Saving):
         else:
             print("Insufficient Funds")
 
-    def __str__(self):
-        return 'term_saving'
-
     def __repr__(self):
-        return 'term_saving'
+        return "term saving"
 
 
 if __name__ == "__main__":
