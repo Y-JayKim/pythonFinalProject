@@ -27,10 +27,10 @@ class LoginWindow(MainMenu):
         # Widgets and Bind to Events
         self.login_label = Label(self.top_frame, text='SIGN IN', font=("Helvetica", 16))
 
-        self.username_label = Label(self.mid_frame, text='Username')
+        self.username_label = Label(self.mid_frame, text='Account Number')
         self.username_entry = Entry(self.mid_frame, width=20)
 
-        self.password_label = Label(self.mid_frame, text="Password")
+        self.password_label = Label(self.mid_frame, text="PIN Number")
         self.password_entry = Entry(self.mid_frame, show='*', width=20)
 
         self.qr_image = PhotoImage(file="QR.png")
