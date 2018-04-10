@@ -9,9 +9,9 @@ sys.path.insert(0, './GUI/')
 from tkinter import *
 from tkinter import messagebox
 from login_page import LoginWindow
+from current_balance import BalanceWindow
+from selection import SelectionWindow
 from main_page import MainWindow
-# from current_balance import BalanceWindow
-# from selection import SelectionWindow
 # from qr_login import BarCodeScanner
 import csv
 from constant import *
@@ -37,8 +37,7 @@ class Controller:
 
         if username.get() in self.user_dict and self.user_dict[username.get()] == password.get():
             messagebox.showinfo("Sign In", "Log in Successfully")
-            self.master.destroy()
-            MainWindow(Tk())
+            self._main_page()
 
         else:
             messagebox.showinfo("Invalid", "Invalid username/password")
@@ -54,76 +53,75 @@ class Controller:
         pass
 
 # ---------------------------------Main Page function ----------------------------------------------------
-#     def _main_page(self):
-#         self.master.destroy()
-#         self.master = Tk()
-#         main_window = MainWindow(self.master)
-#
-#         main_window.left_top_button.bind("<Button-1>", self.deposit)
-#         main_window.left_mid_button.bind("<Button-1>", self.withdraw)
-#         main_window.left_bottom_button.bind("<Button-1>", self.check_balance)
-#         main_window.right_top_button.bind("<Button-1>", self.transfer)
-#         main_window.right_mid_button.bind("<Button-1>", self.print_info)
-#         main_window.right_bottom_button.bind("<Button-1>", self.help)
-#
-#     def deposit(self, event):
-#         self._selection_page('deposit')
-#         self.action = 1
-#         return self.action
-#
-#     def withdraw(self, event):
-#         self._selection_page('withdraw')
-#         self.action = 1
-#         return self.action
-#
-#     def transfer(self, event):
-#         self._selection_page('transfer')
-#         self.action = 1
-#         return self.action
-#
-#     def check_balance(self, event):
-#         self._selection_page('check balance')
-#         self.action = 2
-#         return self.action
-#
-#     def print_info(self, event):
-#         self._selection_page("print Information")
-#         self.action = 3
-#         return self.action
-#
-#     def help(self, event):
-#         pass
+    def _main_page(self):
+        self.master.destroy()
+        self.master = Tk()
+        main_window = MainWindow(self.master)
+
+        main_window.left_top_button.bind("<Button-1>", self.deposit)
+        main_window.left_mid_button.bind("<Button-1>", self.withdraw)
+        main_window.left_bottom_button.bind("<Button-1>", self.check_balance)
+        main_window.right_top_button.bind("<Button-1>", self.transfer)
+        main_window.right_mid_button.bind("<Button-1>", self.print_info)
+        main_window.right_bottom_button.bind("<Button-1>", self.help)
+
+    def deposit(self, event):
+        self._selection_page('deposit')
+        self.action = 1
+        return self.action
+
+    def withdraw(self, event):
+        self._selection_page('withdraw')
+        self.action = 1
+        return self.action
+
+    def transfer(self, event):
+        self._selection_page('transfer')
+        self.action = 1
+        return self.action
+
+    def check_balance(self, event):
+        self._selection_page('check balance')
+        self.action = 2
+        return self.action
+
+    def print_info(self, event):
+        self._selection_page("print Information")
+        self.action = 3
+        return self.action
+
+    def help(self, event):
+        pass
 
 # -----------------------------------Selection Page--------------------------------------------------------
 
-    # def _selection_page(self, option):
-    #     self.master.destroy()
-    #     self.master = Tk()
-    #     selection_window = SelectionWindow(self.master, option)
-    #
-    #     selection_window.saving_button.bind("<Button-1>", self._amount_select)
-    #     selection_window.chequing_button.bind("<Button-1>", self._amount_select)
-    #
-    # def _amount_select(self, event):
-    #     if self.action == 1:
-    #         self._balance_page()
-    #     elif self.action == 2:
-    #         messagebox.showinfo("Button", "Balance Check")
-    #     elif self.action == 3:
-    #         messagebox.showinfo("Button", "Information Check")
+    def _selection_page(self, option):
+        self.master.destroy()
+        self.master = Tk()
+        selection_window = SelectionWindow(self.master, option)
+
+        selection_window.saving_button.bind("<Button-1>", self._amount_select)
+        selection_window.chequing_button.bind("<Button-1>", self._amount_select)
+
+    def _amount_select(self, event):
+        if self.action == 1:
+            self._balance_page()
+        elif self.action == 2:
+            messagebox.showinfo("Button", "Balance Check")
+        elif self.action == 3:
+            messagebox.showinfo("Button", "Information Check")
 
 # ---------------------------------------Current Balance-----------------------------------------
-#     def _balance_page(self):
-#         self.master.destroy()
-#         self.master = Tk()
-#
-#         balance_window = BalanceWindow(self.master)
-#
-#         balance_window.number1_button.config(command="")
+    def _balance_page(self):
+        self.master.destroy()
+        self.master = Tk()
+
+        balance_window = BalanceWindow(self.master)
+
+        balance_window.number1_button.config(command="")
 
     # -------------------------------------------------------------------------------------------
     @property
-
     def user_dict(self):
         user_file = {}
         with open(USER_ACCOUNT_FILE, 'r') as file:

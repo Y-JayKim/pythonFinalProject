@@ -4,13 +4,13 @@
 #
 # Yeonjae Kim  /  Minsu Song
 #
-
 from tkinter import *
+from main_menu import MainMenu
 
 
-class LoginWindow:
+class LoginWindow(MainMenu):
     def __init__(self, parent):
-        self.master=parent
+        super().__init__(parent)
         self.master.title("Login Window")
 
         # FRAME
