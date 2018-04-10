@@ -33,10 +33,17 @@ class TermSaving(Saving):
         else:
             print("Insufficient Funds")
 
+    def __str__(self):
+        return 'term_saving'
+
+    def __repr__(self):
+        return 'term_saving'
+
 
 if __name__ == "__main__":
     a = TermSaving("Jay")
-    a.withdraw(1000.0)
-    a.withdraw(5000.0)
-    for nam, amo, da in a.get_transaction:
-        print("%-15s $%-15s @%-15s" % (nam, amo, da))
+    print(a)
+    # a.withdraw(1000.0)
+    # a.withdraw(5000.0)
+    # for nam, amo, da in a.get_transaction:
+    #     print("%-15s $%-15s @%-15s" % (nam, amo, da))

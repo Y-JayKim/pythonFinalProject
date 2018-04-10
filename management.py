@@ -10,12 +10,17 @@ import json
 from constant import *
 import sys
 sys.path.insert(0, './BankAccount/')
-from account import *
+from chequing import Chequing
+from saving import Saving
+from term_saving import TermSaving
 
 
 # global
 user_dict = {}
 userInfo_dict = {}
+# deposit_account = 10000
+# saving_account = 20000
+# term_saving_account = 30000
 
 
 def manager_account():
@@ -64,25 +69,40 @@ def new_account_to_user(account_type):
     pass
 
 
-def create_account():
+# 어카운트가 하드코드임
+def create():
+    try:
+        sin_num = int(input("Please Enter a SIN number: "))
+        username = input("Please Enter the Client's Name: ")
+
+        accounts = [Chequing(username), Saving(username), TermSaving(username)]
+
+        if len(str(sin_num)) == 9:
+            account_selection = input("Which account do you want to create?:\t")
+
+            for account in accounts:
+                if str(account) == account_selection:
+                    create_account(sin_num, account)
+                print('Wrong account. Please Select One of These: {}'.format(str(i) for i in accounts))
+        else:
+            print("Invalid SIN number.")
+    except ValueError:
+        print("Invalid SIN Number! Please try again later.")
+
+
+def create_account(sin_num, account):
     global user_dict
     print(user_dict)
-    sin_num = str(input("Please Enter a SIN number: "))
-    if sin_num in user_dict:
-        print("User name already exists!!")
-        return False
-    else:
-        print('username: {} and Password: {}\n'.format(sin_num, password))
-        print("Please type yes or y to continue.\nIf you want to cancel, please enter n or no\n")
-        selection = input("---> :")
-        if selection == 'y' or selection == 'yes':
-            user_dict[sin_num] = password
-            write_user()
 
-        elif selection == 'n' or selection == 'no':
-            print("Okay ByeBye")
+    if sin_num not in user_dict:
+        user_dict[sin_num] = []
+
+    if account not in user_dict[sin_num]:
+        if account == 'deposit':
+            pass
     else:
-        print("Those password did not match.")
+        print("This user already has this account")
+
 
 def delete_user():
     global user_dict
@@ -126,6 +146,7 @@ def transaction():
 
 
 def main(manage_account):
+
     print("--------------------------------------------------------------------\n")
     print("--------------------------------------------------------------------\n")
     print("Hello, this program is for managing bank account\n")
@@ -134,7 +155,10 @@ def main(manage_account):
     print("Please Enter your username and password\n")
     username = input("Username:  ")
     password = input("Password:  ")
-
+    # -----------------***********----------
+    username = 'root'
+    password = 'P@ssw0rd'
+    # -----------------***********----------
     while username != '' and password != '':
         if username in manage_account and password == manage_account[username]:
             print("Please select an option\n\n")
@@ -143,7 +167,7 @@ def main(manage_account):
             selection = input("Please Enter a Number above: ")
             while selection != '':
                 if selection == '1':
-                    create_account()
+                    create()
                     selection = '6'
                 elif selection == '2':
                     delete_user()
