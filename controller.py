@@ -4,6 +4,7 @@
 #
 # Yeonjae Kim  /  Minsu Song
 #
+
 import sys
 sys.path.insert(0, './GUI/')
 from tkinter import *
@@ -29,7 +30,6 @@ class Controller:
         self.LoginWindow.submit_button.bind("<Button-1>", self._login_page)
         self.LoginWindow.password_entry.bind("<Return>", self._login_page)
         self.LoginWindow.register_lost_label.bind("<Button-1>", self._lost_register)
-
         self.LoginWindow.qr_button.bind("<Button-1>", self.qr_login)
 
 # ---------------------------------SignIn Page function ----------------------------------------------------
@@ -70,31 +70,31 @@ class Controller:
     def deposit(self, event):
         self._selection_page('deposit')
         self.action = 1
-        MainMenu(self.master).file_menu.add_command(label="New Window", command=self._main_page)
+        MainMenu(self.master).file_menu.entryconfigure("New Window", command=self._main_page)
         return self.action
 
     def withdraw(self, event):
         self._selection_page('withdraw')
         self.action = 1
-        MainMenu(self.master).file_menu.add_command(label="New Window", command=self._main_page)
+        MainMenu(self.master).file_menu.entryconfigure("New Window", command=self._main_page)
         return self.action
 
     def transfer(self, event):
         self._selection_page('transfer')
         self.action = 1
-        MainMenu(self.master).file_menu.add_command(label="New Window", command=self._main_page)
+        MainMenu(self.master).file_menu.entryconfigure("New Window", command=self._main_page)
         return self.action
 
     def check_balance(self, event):
         self._selection_page('check balance')
         self.action = 2
-        MainMenu(self.master).file_menu.add_command(label="New Window", command=self._main_page)
+        MainMenu(self.master).file_menu.entryconfigure("New Window", command=self._main_page)
         return self.action
 
     def print_info(self, event):
         self._selection_page("print Information")
         self.action = 3
-        MainMenu(self.master).file_menu.add_command(label="New Window", command=self._main_page)
+        MainMenu(self.master).file_menu.entryconfigure("New Window", command=self._main_page)
         return self.action
 
     def help(self, event):
@@ -125,7 +125,7 @@ class Controller:
         self.master = Tk()
 
         balance_window = BalanceWindow(self.master)
-        MainMenu(self.master).file_menu.add_command(label="New Window", command=self._main_page)
+        MainMenu(self.master).file_menu.entryconfigure("New Window", command=self._main_page)
         balance_window.number1_button.config(command="")
 
     # -----------------------------------Help Page--------------------------------------------------------
@@ -133,7 +133,7 @@ class Controller:
         self.master.destroy()
         self.master = Tk()
         Help(self.master)
-        MainMenu(self.master).file_menu.add_command(label="New Window", command=self._main_page)
+        MainMenu(self.master).file_menu.entryconfigure("New Window", command=self._main_page)
 
 
     # -------------------------------------------------------------------------------------------
