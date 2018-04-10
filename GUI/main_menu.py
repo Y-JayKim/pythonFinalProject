@@ -4,7 +4,9 @@
 #
 # Yeonjae Kim  /  Minsu Song
 #
+
 from tkinter import *
+from main_page import *
 
 
 class MainMenu:
@@ -30,7 +32,8 @@ class MainMenu:
         self.main_menu.add_cascade(label="Help", menu=self.help_menu)
 
         # add command in menus
-        self.file_menu.add_command(label="New Window")
+        # New Window누르면 새 Tk가 떠야하는데...안떠여
+        self.file_menu.add_command(label="New Window", command=self._open_newwindow)
         self.file_menu.add_command(label="Import Setting")
         self.file_menu.add_command(label="Print")
         self.file_menu.add_separator()
@@ -48,6 +51,10 @@ class MainMenu:
         # Positions the window in the center of the page.
         self.master.geometry("+{}+{}".format(self.position_right, self.position_down))
 
+    # 이게 새로운 Tk 여는거요
+    def _open_newwindow(self):
+        self.master.destroy()
+        MainWindow(Tk())
 
 if __name__ == "__main__":
     root = Tk()
