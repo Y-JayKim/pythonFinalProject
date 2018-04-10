@@ -64,23 +64,19 @@ def new_account_to_user(account_type):
     pass
 
 
-def create_user():
+def create_account():
     global user_dict
     print(user_dict)
-    username = str(input("Please Enter a username: "))
-    if username in user_dict:
+    sin_num = str(input("Please Enter a SIN number: "))
+    if sin_num in user_dict:
         print("User name already exists!!")
         return False
-
-    password = input("Please Enter password: ")
-    password_confirm = input("Please re-enter the password: ")
-
-    if password == password_confirm:
-        print('username: {} and Password: {}\n'.format(username, password))
+    else:
+        print('username: {} and Password: {}\n'.format(sin_num, password))
         print("Please type yes or y to continue.\nIf you want to cancel, please enter n or no\n")
         selection = input("---> :")
         if selection == 'y' or selection == 'yes':
-            user_dict[username] = password
+            user_dict[sin_num] = password
             write_user()
 
         elif selection == 'n' or selection == 'no':
@@ -91,22 +87,20 @@ def create_user():
 def delete_user():
     global user_dict
 
-    username = str(input("Please Enter a username: "))
+    account_num = str(input("Please Enter an account number: "))
     if not username in user_dict:
-        print("\nThe username does not exist")
+        print("\nNot existing Account number")
         return False
 
-    confirmation = input('Are you sure to delete {} account? (y/n): '.format(username))
+    confirmation = input('Are you sure to delete {} account? (y/n): '.format(account_num))
 
     if confirmation == 'y' or confirmation == 'yes':
-        user_dict.pop(username)
+        user_dict.pop(account_num)
         write_user()
         print("Deletion Completed")
         return True
-
     elif confirmation == 'n' or confirmation == 'no':
         return False
-
     else:
         print("Invalid Input")
         return False
@@ -149,7 +143,7 @@ def main(manage_account):
             selection = input("Please Enter a Number above: ")
             while selection != '':
                 if selection == '1':
-                    create_user()
+                    create_account()
                     selection = '6'
                 elif selection == '2':
                     delete_user()
