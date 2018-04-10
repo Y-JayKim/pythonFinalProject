@@ -41,6 +41,6 @@ if __name__ == "__main__":
     # a.deposit(1000.12)
     # print(a.balance)
     # a.interest()
-    # for nam, amo, day in a.get_transaction:
-    #     print("%-15s $%-15s @%-15s" % (nam, amo, day))
+    for nam, amo, day in a.get_transaction:
+        print("%-15s $%-15s @%-15s" % (nam, amo, day))
     # print(a.balance)

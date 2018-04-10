@@ -5,7 +5,7 @@
 # Yeonjae Kim  /  Minsu Song
 #
 from tkinter import *
-from PIL import ImageTk, Image
+# from PIL import ImageTk, Image
 from main_menu import MainMenu
 
 
@@ -24,15 +24,15 @@ class MainWindow(MainMenu):
         self.right_frame.grid(column=2, row=0, padx=10, pady=30)
 
         # Widgets and Bind to Events
-        self.left_top_button = Button(self.left_frame, text="Deposit", width=10, height=5)
-        self.left_mid_button = Button(self.left_frame, text="Withdraw", width=10, height=5)
-        self.left_bottom_button = Button(self.left_frame, text="Check\nBalance", width=10, height=5)
+        self.left_top_button = Button(self.left_frame, text="Deposit", width=5, height=2)
+        self.left_mid_button = Button(self.left_frame, text="Withdraw", width=5, height=2)
+        self.left_bottom_button = Button(self.left_frame, text="Check\nBalance", width=2, height=2)
 
         # self.logo_image = ImageTk.PhotoImage(file="logo.png")
         # self.image = Image.open("nmap.PNG")
         # self.logo_image = ImageTk.PhotoImage(self.image)
-        self.logo_image = ImageTk.PhotoImage(file="nmap.PNG")
-        self.main_image = Label(self.mid_frame, image=self.logo_image, width=90, height=90, cursor="hand2").grid(row=1, column=1, padx=10, pady=5)
+        # self.logo_image = ImageTk.PhotoImage(file="nmap.PNG")
+        self.main_image = Label(self.mid_frame, width=90, height=90, cursor="hand2").grid(row=1, column=1, padx=10, pady=5)
 
         self.right_top_button = Button(self.right_frame, text="Transfer", width=10, height=5)
         self.right_mid_button = Button(self.right_frame, text="Print Account\n Information", width=10, height=5)

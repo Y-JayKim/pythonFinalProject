@@ -47,8 +47,8 @@ class Account:
     def balance(self):
         return self._balance
 
-    def change_name(self, new_name):
-        self.name = str(new_name)
+    # def change_name(self, new_name):
+    #     self.name = str(new_name)
 
     # checks errors
     def negative_check(self, value):
@@ -74,7 +74,7 @@ class Account:
             self._balance += self._balance * SAVING_INTEREST_RATE
 
     def __str__(self):
-        return '\nName = {}\nAccount Number = {}\nBalance = ${}\n'.format(self.name, str(self.acc_num), str(self._balance))
+        return '{}:{}'.format(str(self.acc_num), str(self._balance))
 
 
 if __name__ == "__main__":
