@@ -8,9 +8,10 @@ from tkinter import *
 from main_menu import MainMenu
 
 
-class LoginWindow(MainMenu):
+class LoginWindow:
     def __init__(self, parent):
-        super().__init__(parent)
+        # super().__init__(parent)
+        self.master=parent
         self.master.title("Login Window")
 
         # FRAME
