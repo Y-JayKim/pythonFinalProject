@@ -30,7 +30,7 @@ class MainMenu:
         self.main_menu.add_cascade(label="Help", menu=self.help_menu)
 
         # add command in menus
-        self.file_menu.add_command(label="New Window")
+        # self.file_menu.add_command(label="New Window")
         self.file_menu.add_command(label="Import Setting")
         self.file_menu.add_command(label="Print")
         self.file_menu.add_separator()
