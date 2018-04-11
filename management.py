@@ -4,10 +4,8 @@
 #
 # Yeonjae Kim   Minsu Song
 #
-import json
-from pprint import pprint
 import csv
-import json
+from operator import itemgetter
 from constant import *
 import sys
 sys.path.insert(0, './BankAccount/')
@@ -18,7 +16,6 @@ from term_saving import TermSaving
 
 # global
 user_dict = {}
-user_save_dict = {}
 
 
 def manager_account():
@@ -33,25 +30,40 @@ def manager_account():
 #------------------------Save and load file----------------------------
 def save_file():
     global user_dict
-    global user_save_dict
-
-    value_placeholder = ''
+    listoflist = []
 
     for key in user_dict:
         for value in user_dict[key]:
-            value_placeholder += str(value) + ':'
-        user_save_dict[key] = value_placeholder
-        value_placeholder = ''
+            listoflist.append([value.acc_num, repr(value), key, value.balance])
+    listoflist = sorted(listoflist, key=itemgetter(0))
 
     with open(USER_INFO_FILE, 'w') as file:
-        file.write(json.dumps(user_save_dict))
+        fieldnames = ['acc_num', 'account', 'sin', 'balance']
+        csv_writer = csv.writer(file)
+
+        csv_writer.writerow(fieldnames)
+        for li in listoflist:
+            csv_writer.writerow(li)
 
 
 def load_file():
     global user_dict
 
-    with open(USER_INFO_FILE, 'r') as file:
-        user_dict = json.loads(file.read())
+    with open(USER_INFO_FILE, 'r') as csv_file:
+        csv_reader = csv.reader(csv_file)
+
+        next(csv_reader)
+        for row in csv_reader:
+            if not row == []:
+                if row[2] not in user_dict:
+                    user_dict[row[2]] = []
+
+                if row[1] == 'chequing':
+                    user_dict[row[2]].append(Chequing(int(row[3])))
+                elif row[1] == 'saving':
+                    user_dict[row[2]].append(Saving(int(row[3])))
+                elif row[1] == 'term saving':
+                    user_dict[row[2]].append(TermSaving(int(row[3])))
 
     print(user_dict)
 
@@ -98,17 +110,15 @@ def create_account(sin, account):
     global user_dict
 
     if sin not in user_dict:
-        name = input("Please enter the name of the client:\t")
         user_dict[sin] = []
-    else:
-        name = user_save_dict[sin].split('::')[0]
+
     if not exist_account(account, sin):
         if account == 'chequing':
-            user_dict[sin].append(Chequing(name))
+            user_dict[sin].append(Chequing(sin))
         elif account == 'saving':
-            user_dict[sin].append(Saving(name))
+            user_dict[sin].append(Saving(sin))
         elif account == 'term saving':
-            user_dict[sin].append(TermSaving(name))
+            user_dict[sin].append(TermSaving(sin))
         else:
             print('Erorr!! Handling is needed')
     else:
@@ -156,6 +166,8 @@ def show_transaction():
 
 #-------------------------------Main---------------------------------
 def main(manage_account):
+    load_file()
+
     print("--------------------------------------------------------------------\n")
     print("--------------------------------------------------------------------\n")
     print("Hello, this program is for managing bank account\n")
@@ -182,8 +194,8 @@ def main(manage_account):
                     show_transaction()
                     selection = '4'
                 elif selection == '4':
-                    print("1.Create an User Account    | 2.Delete existing User Account \n" \
-                          + "3.User's Transaction Report |4. Show options again \n\t\t\t\t\t 0.Exit |\n\n")
+                    print("\n1.Create an User Account    | 2.Delete existing User Account \n" \
+                          + "3.User's Transaction Report | 4. Show options again \n\t\t\t\t\t 0.Exit |\n\n")
                     selection = input("Please Enter a Number above: ")
                 elif selection == '0' or selection == 'exit':
                     break
@@ -202,5 +214,4 @@ def main(manage_account):
 
 
 if __name__ == '__main__':
-    # read_user()
     main(manager_account())
