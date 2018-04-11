@@ -70,31 +70,26 @@ class Controller:
     def deposit(self, event):
         self._selection_page('deposit')
         self.action = 1
-        MainMenu(self.master).file_menu.entryconfigure("New Window", command=self._main_page)
         return self.action
 
     def withdraw(self, event):
         self._selection_page('withdraw')
         self.action = 1
-        MainMenu(self.master).file_menu.entryconfigure("New Window", command=self._main_page)
         return self.action
 
     def transfer(self, event):
         self._selection_page('transfer')
         self.action = 1
-        MainMenu(self.master).file_menu.entryconfigure("New Window", command=self._main_page)
         return self.action
 
     def check_balance(self, event):
         self._selection_page('check balance')
         self.action = 2
-        MainMenu(self.master).file_menu.entryconfigure("New Window", command=self._main_page)
         return self.action
 
     def print_info(self, event):
         self._selection_page("print Information")
         self.action = 3
-        MainMenu(self.master).file_menu.entryconfigure("New Window", command=self._main_page)
         return self.action
 
     def help(self, event):
@@ -108,8 +103,6 @@ class Controller:
 
         selection_window.saving_button.bind("<Button-1>", self._amount_select)
         selection_window.chequing_button.bind("<Button-1>", self._amount_select)
-
-
 
     def _amount_select(self, event):
         if self.action == 1:
@@ -125,7 +118,6 @@ class Controller:
         self.master = Tk()
 
         balance_window = BalanceWindow(self.master)
-        MainMenu(self.master).file_menu.entryconfigure("New Window", command=self._main_page)
         balance_window.number1_button.config(command="")
 
     # -----------------------------------Help Page--------------------------------------------------------
@@ -133,8 +125,6 @@ class Controller:
         self.master.destroy()
         self.master = Tk()
         Help(self.master)
-        MainMenu(self.master).file_menu.entryconfigure("New Window", command=self._main_page)
-
 
     # -------------------------------------------------------------------------------------------
     @property

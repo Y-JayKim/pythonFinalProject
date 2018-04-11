@@ -6,7 +6,6 @@
 #
 from tkinter import *
 # from PIL import ImageTk, Image
-from main_menu import MainMenu
 
 
 class MainWindow:
