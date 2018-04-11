@@ -45,13 +45,17 @@ class Chequing(Account):
 
 if __name__ == "__main__":
     a = Chequing("Yeonjae")
-    print(a)
-    a.deposit(10000.12)
-    a.withdraw(1000.12)
-    a.post_cheque(1000.12)
-    print(a.balance)
-    a.post_cheque(1000.12)
-    print(a.balance)
-    for nam, amo, day in a.get_transaction:
-        print("%-15s $%-15s @%-15s" % (nam, amo, day))
+    b = Chequing("jay")
+
+    c = [a, b]
+
+    # print(a)
+    # a.deposit(10000.12)
+    # a.withdraw(1000.12)
+    # a.post_cheque(1000.12)
+    # print(a.balance)
+    # a.post_cheque(1000.12)
+    # print(a.balance)
+    # for nam, amo, day in a.get_transaction:
+    #     print("%-15s $%-15s @%-15s" % (nam, amo, day))
 

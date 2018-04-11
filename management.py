@@ -66,6 +66,15 @@ def sin_check():
         print("\nInvalid SIN Number! Please try again later.\n")
 
 
+def exist_account(account_choice, sin):
+    global user_dict
+
+    for account in user_dict[sin]:
+        if account_choice == repr(account):
+            return True
+    return False
+
+
 #------------------ Creating Account---------------------------------
 def create():
     sin = sin_check()
@@ -74,10 +83,11 @@ def create():
         account_selection = input("Which account do you want to create?:\t")
 
         for account in ACCOUNTS:
-            if account == account_selection:
+            if account not in user_dict and account == account_selection:
                 create_account(sin, account)
                 save_file()
                 return True
+
         print('\nWrong account. Please Select One of These: {}\n'.format(ACCOUNTS))
 
     else:
@@ -92,35 +102,41 @@ def create_account(sin, account):
         user_dict[sin] = []
     else:
         name = user_save_dict[sin].split('::')[0]
-
-    if account == 'chequing':
-        user_dict[sin].append(Chequing(name))
-    elif account == 'saving':
-        user_dict[sin].append(Saving(name))
-    elif account == 'term saving':
-        user_dict[sin].append(TermSaving(name))
+    if not exist_account(account, sin):
+        if account == 'chequing':
+            user_dict[sin].append(Chequing(name))
+        elif account == 'saving':
+            user_dict[sin].append(Saving(name))
+        elif account == 'term saving':
+            user_dict[sin].append(TermSaving(name))
+        else:
+            print('Erorr!! Handling is needed')
     else:
-        print('Erorr!! Handling is needed')
+        print('\nThe client already has {} account\n'.format(account))
+
     print(user_dict)
 
 
+#------------------ Deleting Account---------------------------------
 def delete_account():
     sin = sin_check()
 
     if sin in user_dict:
         account_choice = input('Please enter account you want to delete:\t')
-
         for account in user_dict[sin]:
             if account_choice == repr(account):
                 user_dict[sin].remove(account)
-        save_file()
+                save_file()
+                return True
 
+        print("There is no existing account")
     else:
         print('\nThe Client that matches with the SIN does not exist \n')
 
     print(user_dict)
 
 
+#------------------Show Account Detail---------------------------------
 def show_transaction():
     global user_dict
     sin = sin_check()
@@ -138,20 +154,8 @@ def show_transaction():
         print('\nThe Client that matches with the SIN does not exist \n')
 
 
-# def account_detail():
-#     """Shows account info such as account number, balance and name"""
-#
-#     username = str(input("Please Enter a username: "))
-#     if not username in user_dict:
-#         print("The username does not exist")
-#         return False
-#
-#     acc_detail=Account(username)
-
-
+#-------------------------------Main---------------------------------
 def main(manage_account):
-    # load_file()
-
     print("--------------------------------------------------------------------\n")
     print("--------------------------------------------------------------------\n")
     print("Hello, this program is for managing bank account\n")
@@ -165,27 +169,21 @@ def main(manage_account):
         if username in manage_account and password == manage_account[username]:
             print("Please select an option\n\n")
             print("1.Create an User Account    | 2.Delete existing User Account \n3.User's Transaction Report | " \
-                  + "4.Detail information of an Account \n5.open a new account        | 0.Exit\n\n")
+                  + "4. Show options again \n\t\t\t\t\t 0.Exit |\n\n")
             selection = input("Please Enter a Number above: ")
             while selection != '':
                 if selection == '1':
                     create()
-                    selection = '6'
+                    selection = '4'
                 elif selection == '2':
                     delete_account()
-                    selection = '6'
+                    selection = '4'
                 elif selection == '3':
                     show_transaction()
-                    selection = '6'
+                    selection = '4'
                 elif selection == '4':
-                    # account_detail()
-                    pass
-                elif selection == '5':
-                    # transaction()
-                    pass
-                elif selection == '6':
-                    print("1.Create an User Account  | 2.Delete a exist User Account \n3.Report on User          | "\
-                          + "4.Detail information of an Account \n5.open a new account       | 0.Exit\n")
+                    print("1.Create an User Account    | 2.Delete existing User Account \n" \
+                          + "3.User's Transaction Report |4. Show options again \n\t\t\t\t\t 0.Exit |\n\n")
                     selection = input("Please Enter a Number above: ")
                 elif selection == '0' or selection == 'exit':
                     break
