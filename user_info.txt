@@ -1,4 +1,0 @@
-acc_num,account,sin,balance
-10000,saving,111111111,1000
-10001,saving,111111112,1000
-10002,chequing,111111111,0

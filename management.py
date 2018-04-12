@@ -7,6 +7,7 @@
 import csv
 from operator import itemgetter
 from constant import *
+from model import Model
 import sys
 sys.path.insert(0, './BankAccount/')
 from chequing import Chequing
@@ -30,42 +31,44 @@ def manager_account():
 #------------------------Save and load file----------------------------
 def save_file():
     global user_dict
-    listoflist = []
 
-    for key in user_dict:
-        for value in user_dict[key]:
-            listoflist.append([value.acc_num, repr(value), key, value.balance])
-    listoflist = sorted(listoflist, key=itemgetter(0))
-
-    with open(USER_INFO_FILE, 'w') as file:
-        fieldnames = ['acc_num', 'account', 'sin', 'balance']
-        csv_writer = csv.writer(file)
-
-        csv_writer.writerow(fieldnames)
-        for li in listoflist:
-            csv_writer.writerow(li)
+    storage = Model(user_dict)
+    storage.write_userinfo()
+    # listoflist = []
+    #
+    # for key in user_dict:
+    #     for value in user_dict[key]:
+    #         listoflist.append([value.acc_num, repr(value), key, value.balance])
+    # listoflist = sorted(listoflist, key=itemgetter(0))
+    #
+    # with open(USER_INFO_FILE, 'w') as file:
+    #     fieldnames = ['acc_num', 'account', 'sin', 'balance']
+    #     csv_writer = csv.writer(file)
+    #
+    #     csv_writer.writerow(fieldnames)
+    #     for li in listoflist:
+    #         csv_writer.writerow(li)
 
 
 def load_file():
     global user_dict
 
-    with open(USER_INFO_FILE, 'r') as csv_file:
-        csv_reader = csv.reader(csv_file)
-
-        next(csv_reader)
-        for row in csv_reader:
-            if not row == []:
-                if row[2] not in user_dict:
-                    user_dict[row[2]] = []
-
-                if row[1] == 'chequing':
-                    user_dict[row[2]].append(Chequing(int(row[3])))
-                elif row[1] == 'saving':
-                    user_dict[row[2]].append(Saving(int(row[3])))
-                elif row[1] == 'term saving':
-                    user_dict[row[2]].append(TermSaving(int(row[3])))
-
-    print(user_dict)
+    storage = Model(user_dict)
+    storage.read_userinfo()
+    # with open(USER_INFO_FILE, 'r') as csv_file:
+    #     csv_reader = csv.reader(csv_file)
+    #     next(csv_reader)
+    #     for row in csv_reader:
+    #         if not row == []:
+    #             if row[2] not in user_dict:
+    #                 user_dict[row[2]] = []
+    #
+    #             if row[1] == 'chequing':
+    #                 user_dict[row[2]].append(Chequing(int(row[3])))
+    #             elif row[1] == 'saving':
+    #                 user_dict[row[2]].append(Saving(int(row[3])))
+    #             elif row[1] == 'term saving':
+    #                 user_dict[row[2]].append(TermSaving(int(row[3])))
 
 
 #--------------------------------------------------------------------

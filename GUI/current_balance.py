@@ -8,8 +8,8 @@ from tkinter import *
 
 
 class BalanceWindow:
-    def __init__(self, parent, option):
-        self.balance = 10000
+    def __init__(self, parent, option, balance=10000):
+        self.balance = balance
         self.master=parent
         self.master.title("Current Balance")
 

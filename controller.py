@@ -14,6 +14,7 @@ from current_balance import BalanceWindow
 from selection import SelectionWindow
 from main_page import MainWindow
 from transfer_page import TransferWindow
+from model import Model
 from help_page import Help
 # from qr_login import BarCodeScanner
 import csv
@@ -25,6 +26,12 @@ class Controller:
         self.master = parent
 
         self.action = None
+        self.data = Model()
+        self.data.read_password()
+        self.data.read_userinfo()
+
+        self.user_password = self.data.user_password
+        self.user_info = self.data.user_dict
 
         self.LoginWindow = LoginWindow(self.master)
         self.LoginWindow.submit_button.config(command=self._login_page)
@@ -34,17 +41,16 @@ class Controller:
 
 # ---------------------------------SignIn Page function ----------------------------------------------------
     def _login_page(self, event=None):
-        username = self.LoginWindow.username_entry
-        password = self.LoginWindow.password_entry
+        self.sin = self.LoginWindow.username_entry.get()
+        self.pin = self.LoginWindow.password_entry.get()
 
-        if username.get() in self.user_dict and self.user_dict[username.get()] == password.get():
+        if self.sin in self.user_password and self.user_password[self.sin] == self.pin:
             messagebox.showinfo("Sign In", "Log in Successfully")
             self._main_page()
 
         else:
             messagebox.showinfo("Invalid", "Invalid username/password")
-            username.delete(0, "end")
-            password.delete(0, "end")
+            self.LoginWindow.password_entry.delete(0, "end")
 
     def _lost_register(self):
         messagebox.showinfo("Info", "Please contact to one of \nour Agent to create/find username")
@@ -68,15 +74,15 @@ class Controller:
         main_window.right_bottom_button.config(command=self.help)
 
     def deposit(self):
-        self._balance_page('deposit')
+        self._selection_page()
         self.action = "deposit"
 
     def withdraw(self):
-        self._balance_page('withdraw')
+        self._selection_page()
         self.action = "withdraw"
 
     def transfer(self):
-        self._transfer_page('transfer')
+        self._selection_page()
         self.action = "transfer"
 
     def check_balance(self):
@@ -91,30 +97,51 @@ class Controller:
         self._help_page()
 
 # -----------------------------------Selection Page--------------------------------------------------------
-#     def _selection_page(self, option):
-#         self.master.destroy()
-#         self.master = Tk()
-#         selection_window = SelectionWindow(self.master, option)
-#
-#         selection_window.saving_button.config(command=self._amount_select)
-#         selection_window.chequing_button.config(command=self._amount_select)
-#         selection_window.back_button.config(command=self._main_page)
-#
-#     def _amount_select(self):
-#         if self.action in ['deposit', 'withdraw', 'transfer']:
-#             self._balance_page()
-#         elif self.action == 'check_balance':
-#             messagebox.showinfo("Button", "Balance Check")
-#         elif self.action == 'show_info':
-#             messagebox.showinfo("Button", "Information Check")
+    def _selection_page(self):
+        self.master.destroy()
+        self.master = Tk()
+        selection_window = SelectionWindow(self.master, self.action)
+
+        for item in self.user_info[self.sin]:
+            if 'saving' == repr(item):
+                selection_window.saving_button.grid(row=0, column=0, padx=5, pady=5)
+            if 'chequing' == repr(item):
+                selection_window.chequing_button.grid(row=0, column=1, padx=5, pady=5)
+            if 'term saving' == repr(item):
+                selection_window.term_saving_button.grid(row=0, column=2, padx=5, pady=5)
+
+        selection_window.saving_button.config(command=self._saving_select)
+        selection_window.chequing_button.config(command=self._chequing_select)
+        selection_window.term_saving_button.config(command=self._term_saving_select)
+        selection_window.back_button.config(command=self._main_page)
+
+    def _saving_select(self):
+        if self.action == 'transfer':
+            self._transfer_page('saving')
+        else:
+            self._balance_page('saving')
+
+    def _chequing_select(self):
+        if self.action == 'transfer':
+            self._transfer_page('chequing')
+        else:
+            self._balance_page('chequing')
+
+    def _term_saving_select(self):
+        if self.action == 'transfer':
+            self._transfer_page('term saving')
+        else:
+            self._balance_page('term saving')
+
 
 # ---------------------------------------Current Balance-----------------------------------------
     def _balance_page(self, option):
         self.master.destroy()
         self.master = Tk()
 
-        self.balance_window = BalanceWindow(self.master, option)
-        self.balance_window.number1_button.config(command=self._button_action)
+        for item in self.user_info[self.sin]:
+            if repr(item) == option:
+                self.balance_window = BalanceWindow(self.master, self.action, item.balance)
 
         self.balance_window.back_button.config(command=self._main_page)
         self.balance_window.confirm_button.config(command=self._confirm_popup)
@@ -123,8 +150,9 @@ class Controller:
         self.master.destroy()
         self.master = Tk()
 
-        self.transfer_window = TransferWindow(self.master, option)
-        self.transfer_window.number1_button.config(command=self._button_action)
+        for item in self.user_info[self.sin]:
+            if repr(item) == option:
+                self.transfer_window = TransferWindow(self.master, self.action, item.balance)
 
         self.transfer_window.back_button.config(command=self._main_page)
         self.transfer_window.confirm_button.config(command=self._confirm_popup)
