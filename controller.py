@@ -151,10 +151,12 @@ class Controller:
             if repr(accounts[index]) == self.current_option:
                 if self.action == 'deposit':
                     accounts[index].balance += money_entry
+                    self.data.write_userinfo()
                     output = success
                 elif self.action == 'withdraw':
                     if money_entry < accounts[index].balance:
                         accounts[index].balance -= money_entry
+                        self.data.write_userinfo()
                         output = success
 
                 elif self.action == 'transfer':
@@ -165,8 +167,11 @@ class Controller:
 
         messagebox.showinfo("Action report", output)
         self._main_page()
-
 # -----------------------------------Help Page--------------------------------------------------------
+    def _transfer(self):
+        pass
+    
+    # -----------------------------------Help Page--------------------------------------------------------
     def _help_page(self):
         self.master.destroy()
         self.master = Tk()
