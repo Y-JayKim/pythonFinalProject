@@ -13,7 +13,6 @@ from login_page import LoginWindow
 from current_balance import BalanceWindow
 from selection import SelectionWindow
 from main_page import MainWindow
-from main_menu import MainMenu
 from help_page import Help
 # from qr_login import BarCodeScanner
 import csv
