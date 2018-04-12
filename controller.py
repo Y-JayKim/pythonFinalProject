@@ -16,6 +16,7 @@ from current_balance import BalanceWindow
 from selection import SelectionWindow
 from main_page import MainWindow
 from help_page import Help
+from balance_display import AccountBalance
 
 
 class Controller:
@@ -82,8 +83,9 @@ class Controller:
         self._selection_page()
         self.action = "transfer"
 
+    # On Work
     def check_balance(self):
-        self._selection_page()
+        self._balance_page()
         self.action = "balance"
 
     def print_info(self):
@@ -113,16 +115,21 @@ class Controller:
         selection_window.back_button.config(command=self._main_page)
 
     def _saving_select(self):
-            self._balance_page('saving')
+            self._amount_type_page('saving')
 
     def _chequing_select(self):
-            self._balance_page('chequing')
+            self._amount_type_page('chequing')
 
     def _term_saving_select(self):
-            self._balance_page('term saving')
+            self._amount_type_page('term saving')
+
 
 # ---------------------------------------Current Balance-----------------------------------------
     def _balance_page(self, option):
+        pass
+
+# ---------------------------------------Amount Input-----------------------------------------
+    def _amount_type_page(self, option):
         self.master.destroy()
         self.master = Tk()
 
@@ -145,7 +152,6 @@ class Controller:
         accounts = self.user_info[self.sin]
         success = "You just {} ${}".format(self.action, money_entry)
         output = "Invalid Input!"
-        destination_entry = str(self.balance_window.destination_entry.get())
         dest = ''
 
         for index in range(len(accounts)):
@@ -159,6 +165,8 @@ class Controller:
                         output = success
 
                 elif self.action == 'transfer':
+                    destination_entry = str(self.balance_window.destination_entry.get())
+
                     if 1000 <= int(destination_entry) <= self.max_account and \
                                     money_entry < accounts[index].balance:
                         for num in self.user_info:
@@ -173,12 +181,35 @@ class Controller:
         messagebox.showinfo("Action report", output + dest)
         self._main_page()
 
+
     # -----------------------------------Help Page--------------------------------------------------------
     def _help_page(self):
         self.master.destroy()
         self.master = Tk()
         self.main_help_page = Help(self.master)
         self.main_help_page.back_button.config(command=self._main_page)
+
+# ---------------------------------------Balance Display---------------------------------------------
+    def _balance_page(self):
+        self.master.destroy()
+        self.master = Tk()
+        self.existing_acc_window = AccountBalance(self.master)
+
+        for item in self.user_info[self.sin]:
+            if 'saving' == repr(item):
+                self.existing_acc_window.saving_button.grid(row=0, column=0, pady=5)
+                self.balance_show_label = Label(self.existing_acc_window.balance_frame, text=item.balance)
+                self.balance_show_label.grid(row=0, column=1, pady=10)
+            if 'chequing' == repr(item):
+                self.existing_acc_window.chequing_button.grid(row=1, column=0,pady=5)
+                self.balance_show_label = Label(self.existing_acc_window.balance_frame, text=item.balance)
+                self.balance_show_label.grid(row=1, column=1, pady=10)
+            if 'term saving' == repr(item):
+                self.existing_acc_window.term_saving_button.grid(row=2, column=0, padx=5, pady=5)
+                self.balance_show_label = Label(self.existing_acc_window.balance_frame, text=item.balance)
+                self.balance_show_label.grid(row=2,column=1,pady=10)
+
+        self.existing_acc_window.back_button.config(command=self._main_page)
 
 
 if __name__ == '__main__':
