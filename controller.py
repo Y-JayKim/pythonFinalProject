@@ -25,11 +25,13 @@ class Controller:
 
         self.action = None
         self.data = Model()
-        self.data.read_password()
-        self.data.read_userinfo()
 
         self.user_password = self.data.user_password
         self.user_info = self.data.user_dict
+
+        self.max_account = 9999
+        for person in self.user_info:
+            self.max_account += len(self.user_info[person])
 
         self.LoginWindow = LoginWindow(self.master)
         self.LoginWindow.submit_button.config(command=self._login_page)
@@ -146,37 +148,43 @@ class Controller:
         accounts = self.user_info[self.sin]
         success = "You just {} ${}".format(self.action, money_entry)
         output = "Invalid Input!"
+        dest = ''
 
         for index in range(len(accounts)):
             if repr(accounts[index]) == self.current_option:
                 if self.action == 'deposit':
                     accounts[index].balance += money_entry
-                    self.data.write_userinfo()
                     output = success
                 elif self.action == 'withdraw':
                     if money_entry < accounts[index].balance:
                         accounts[index].balance -= money_entry
-                        self.data.write_userinfo()
                         output = success
 
                 elif self.action == 'transfer':
-                    if str(self.balance_window.destination_entry.get()) in self.user_info and \
-                                                                    money_entry < accounts[index].balance:
-                        accounts[index].balance -= money_entry
-                        output = success
+                    destination_entry = str(self.balance_window.destination_entry.get())
 
-        messagebox.showinfo("Action report", output)
+                    if 1000 <= int(destination_entry) <= self.max_account and \
+                                                                money_entry < accounts[index].balance:
+                        for num in self.user_info:
+                            for account in self.user_info[num]:
+                                if account.acc_num == int(destination_entry):
+                                    account.balance -= money_entry
+                        output = success
+                        dest = ' to Account {}'.format(destination_entry)
+
+        if output != "Invalid Input!":
+            self.data.write_userinfo()
+        messagebox.showinfo("Action report", output + dest)
         self._main_page()
-# -----------------------------------Help Page--------------------------------------------------------
-    def _transfer(self):
-        pass
-    
+
+
     # -----------------------------------Help Page--------------------------------------------------------
     def _help_page(self):
         self.master.destroy()
         self.master = Tk()
         self.main_help_page = Help(self.master)
         self.main_help_page.back_button.config(command=self._main_page)
+
 
 # ---------------------------------------Balance Display---------------------------------------------
     def _balance_page(self):
@@ -199,6 +207,7 @@ class Controller:
                 self.balance_show_label.grid(row=2,column=1,pady=10)
 
         self.existing_acc_window.back_button.config(command=self._main_page)
+
 
 if __name__ == '__main__':
     root = Tk()
