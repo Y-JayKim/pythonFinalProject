@@ -17,8 +17,8 @@ class Help:
         self.back_button = Button(self.top_frame, text="<-", width=3, height=1)
         self.back_button.grid(row=0, column=0)
 
-        self.balance_label = Label(self.top_frame, text="Help Page")
-        self.balance_label.grid(row=0, column=1, padx=(140, 0))
+        self.help_label = Label(self.top_frame, text="Help Page")
+        self.help_label.grid(row=0, column=1, padx=(140, 0))
 
         T = Text(self.text_frame, height=10, width=50, padx=30, pady=40)
         T.pack()
