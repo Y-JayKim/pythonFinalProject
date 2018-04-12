@@ -193,19 +193,19 @@ class Controller:
         self.existing_acc_window = AccountBalance(self.master)
 
         for item in self.user_info[self.sin]:
+            row1 = 0
             if 'saving' == repr(item):
-                self.existing_acc_window.saving_button.grid(row=0, column=0, pady=5)
-                self.balance_show_label = Label(self.existing_acc_window.balance_frame, text=item.balance)
-                self.balance_show_label.grid(row=0, column=1, pady=10)
+                row1 = 0
+                self.existing_acc_window.saving_button.grid(row=row1, column=0, pady=5)
             if 'chequing' == repr(item):
-                self.existing_acc_window.chequing_button.grid(row=1, column=0,pady=5)
-                self.balance_show_label = Label(self.existing_acc_window.balance_frame, text=item.balance)
-                self.balance_show_label.grid(row=1, column=1, pady=10)
+                row1 = 1
+                self.existing_acc_window.chequing_button.grid(row=row1, column=0, pady=5)
             if 'term saving' == repr(item):
-                self.existing_acc_window.term_saving_button.grid(row=2, column=0, padx=5, pady=5)
-                self.balance_show_label = Label(self.existing_acc_window.balance_frame, text=item.balance)
-                self.balance_show_label.grid(row=2,column=1,pady=10)
+                row1 = 2
+                self.existing_acc_window.term_saving_button.grid(row=row1, column=0, pady=5)
 
+            self.balance_show_label = Label(self.existing_acc_window.balance_frame, text=item.balance)
+            self.balance_show_label.grid(row=row1, column=1, pady=10)
         self.existing_acc_window.back_button.config(command=self._main_page)
 
 
