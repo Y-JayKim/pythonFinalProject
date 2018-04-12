@@ -4,3 +4,6 @@ test.py
 build/
 controller.spec
 dist/
+10000_log.txt
+10001_log.txt
+10002_log.txt
