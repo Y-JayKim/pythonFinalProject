@@ -32,7 +32,6 @@ class MainWindow:
         # self.image = Image.open("nmap.PNG")
         # self.logo_image = ImageTk.PhotoImage(self.image)
         # self.logo_image = ImageTk.PhotoImage(file="nmap.PNG")
-        # self.main_image = Label(self.mid_frame, width=90, height=90, cursor="hand2").grid(row=1, column=1, padx=10, pady=5)
         self.main_image = Label(self.mid_frame, width=10, height=20, cursor="hand2", background="white")
 
         self.right_top_button = Button(self.right_frame, text="Transfer", width=10, height=5)
