@@ -21,9 +21,9 @@ class SelectionWindow:
         # Widgets and Bind to Events
         self.explanation_label = Label(self.top_frame, \
                                        text='Please Select Account You want to {}'.format(option))
+        self.back_button = Button(self.top_frame, text="<-", width=3, height=1)
         self.saving_button = Button(self.bottom_frame, text="Saving", width=10, height=5)
         self.chequing_button = Button(self.bottom_frame, text="Chequing", width=10, height=5)
-        self.back_button = Button(self.top_frame, text="<-", width=3, height=1)
 
         # Place Widgets On Window
         # Top

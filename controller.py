@@ -101,8 +101,11 @@ class Controller:
         self.master = Tk()
         selection_window = SelectionWindow(self.master, option)
 
+        self.action_info=option
+
         selection_window.saving_button.bind("<Button-1>", self._amount_select)
         selection_window.chequing_button.bind("<Button-1>", self._amount_select)
+        selection_window.back_button.config(command=self._main_page)
 
     def _amount_select(self, event):
         if self.action == 1:
@@ -117,8 +120,17 @@ class Controller:
         self.master.destroy()
         self.master = Tk()
 
-        balance_window = BalanceWindow(self.master)
-        balance_window.number1_button.config(command="")
+        self.balance_window = BalanceWindow(self.master)
+        self.balance_window.number1_button.config(command="")
+
+        self.balance_window.back_button.config(command=self._main_page)
+        self.balance_window.confirm_button.config(command=self._two_functions_for_confirm)
+
+    def _two_functions_for_confirm(self):
+        self.user_type_amount = self.balance_window.input_entry.get()
+        print(BalanceWindow(self.master).input_entry.get())
+        messagebox.showinfo("Action report","You just {} ${}".format(self.action_info, self.user_type_amount))
+        self._main_page()
 
     # -----------------------------------Help Page--------------------------------------------------------
     def _open_help_page(self):
@@ -136,7 +148,6 @@ class Controller:
                 if not row == []:
                     user_file[row[0]] = row[1]
         return user_file
-
 
 if __name__ == '__main__':
     root = Tk()
