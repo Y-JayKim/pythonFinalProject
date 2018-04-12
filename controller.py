@@ -13,6 +13,7 @@ from login_page import LoginWindow
 from current_balance import BalanceWindow
 from selection import SelectionWindow
 from main_page import MainWindow
+from transfer_page import TransferWindow
 from help_page import Help
 # from qr_login import BarCodeScanner
 import csv
@@ -75,7 +76,7 @@ class Controller:
         self.action = "withdraw"
 
     def transfer(self):
-        self._balance_page('transfer')
+        self._transfer_page('transfer')
         self.action = "transfer"
 
     def check_balance(self):
@@ -118,6 +119,16 @@ class Controller:
         self.balance_window.back_button.config(command=self._main_page)
         self.balance_window.confirm_button.config(command=self._confirm_popup)
 
+    def _transfer_page(self, option):
+        self.master.destroy()
+        self.master = Tk()
+
+        self.transfer_window = TransferWindow(self.master, option)
+        self.transfer_window.number1_button.config(command=self._button_action)
+
+        self.transfer_window.back_button.config(command=self._main_page)
+        self.transfer_window.confirm_button.config(command=self._confirm_popup)
+
     def _confirm_popup(self):
         self.user_type_amount = self.balance_window.input_entry.get()
         messagebox.showinfo("Action report", "You just {} ${}".format(self.action, self.user_type_amount))
@@ -125,6 +136,7 @@ class Controller:
 
     def _button_action(self):
         pass
+
     # -----------------------------------Help Page--------------------------------------------------------
     def _help_page(self):
         self.master.destroy()
