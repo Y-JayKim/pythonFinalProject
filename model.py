@@ -75,7 +75,6 @@ class Model:
 
     def write_password(self, identity, password):
         self.user_password[identity] = password
-        self.read_password()
         with open(USER_ACCOUNT_FILE, 'w') as file:
             data = csv.writer(file)
             for key in self.user_password:
