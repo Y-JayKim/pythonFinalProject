@@ -3,7 +3,8 @@
 # Log in window for Account.py
 #
 # Yeonjae Kim  /  Minsu Song
-#
+# Transfer feature, QR code, Encryption, sin and pin add or del, print account info, one more button on main,
+# Delete number buttons
 
 import sys
 sys.path.insert(0, './GUI/')
@@ -116,21 +117,12 @@ class Controller:
         selection_window.back_button.config(command=self._main_page)
 
     def _saving_select(self):
-        if self.action == 'transfer':
-            self._transfer_page('saving')
-        else:
             self._balance_page('saving')
 
     def _chequing_select(self):
-        if self.action == 'transfer':
-            self._transfer_page('chequing')
-        else:
             self._balance_page('chequing')
 
     def _term_saving_select(self):
-        if self.action == 'transfer':
-            self._transfer_page('term saving')
-        else:
             self._balance_page('term saving')
 
 
@@ -141,7 +133,15 @@ class Controller:
 
         for item in self.user_info[self.sin]:
             if repr(item) == option:
+                self.current_option = option
                 self.balance_window = BalanceWindow(self.master, self.action, item.balance)
+
+        if self.action == 'transfer':
+            self.balance_window.account_label = Label(self.balance_window.mid1_frame, text="Destination Account")
+            self.balance_window.destination_entry = Entry(self.balance_window.mid1_frame, width=20)
+
+        self.balance_window.account_label.grid(row=2, column=1)
+        self.balance_window.destination_entry.grid(row=3, column=1)
 
         self.balance_window.back_button.config(command=self._main_page)
         self.balance_window.confirm_button.config(command=self._confirm_popup)
@@ -158,12 +158,18 @@ class Controller:
         self.transfer_window.confirm_button.config(command=self._confirm_popup)
 
     def _confirm_popup(self):
+        for index in range(len(self.user_info[self.sin])):
+            if repr(self.user_info[self.sin][index]) == self.current_option:
+                if self.action == 'deposit':
+                    self.user_info[self.sin][index].balance += int(self.balance_window.input_entry.get())
+                elif self.action == 'withdraw':
+                    self.user_info[self.sin][index].balance -= int(self.balance_window.input_entry.get())
+                elif self.action == 'transfer':
+                    pass
+
         self.user_type_amount = self.balance_window.input_entry.get()
         messagebox.showinfo("Action report", "You just {} ${}".format(self.action, self.user_type_amount))
         self._main_page()
-
-    def _button_action(self):
-        pass
 
     # -----------------------------------Help Page--------------------------------------------------------
     def _help_page(self):

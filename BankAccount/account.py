@@ -47,6 +47,9 @@ class Account:
     def balance(self):
         return self._balance
 
+    @balance.setter
+    def balance(self, value):
+        self._balance = value
     # def change_name(self, new_name):
     #     self.name = str(new_name)
 
