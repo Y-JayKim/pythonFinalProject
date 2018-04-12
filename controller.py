@@ -14,7 +14,6 @@ from login_page import LoginWindow
 from current_balance import BalanceWindow
 from selection import SelectionWindow
 from main_page import MainWindow
-from transfer_page import TransferWindow
 from model import Model
 from help_page import Help
 # from qr_login import BarCodeScanner
@@ -57,9 +56,7 @@ class Controller:
         messagebox.showinfo("Info", "Please contact to one of \nour Agent to create/find username")
 
     def qr_login(self):
-        # scanner = BarCodeScanner()
-        # scanner.start()
-        pass
+        messagebox.showinfo("Info", "This feature is currently out of service")
 
 # ---------------------------------Main Page function ----------------------------------------------------
     def _main_page(self):
@@ -87,8 +84,8 @@ class Controller:
         self.action = "transfer"
 
     def check_balance(self):
-        messagebox.showinfo("Button", "Balance Check")
-        pass
+        self._selection_page()
+        self.action = "balance"
 
     def print_info(self):
         messagebox.showinfo("Button", "Information Check")
@@ -139,36 +136,35 @@ class Controller:
         if self.action == 'transfer':
             self.balance_window.account_label = Label(self.balance_window.mid1_frame, text="Destination Account")
             self.balance_window.destination_entry = Entry(self.balance_window.mid1_frame, width=20)
-
-        self.balance_window.account_label.grid(row=2, column=1)
-        self.balance_window.destination_entry.grid(row=3, column=1)
+            self.balance_window.account_label.grid(row=2, column=1)
+            self.balance_window.destination_entry.grid(row=3, column=1)
 
         self.balance_window.back_button.config(command=self._main_page)
         self.balance_window.confirm_button.config(command=self._confirm_popup)
 
-    def _transfer_page(self, option):
-        self.master.destroy()
-        self.master = Tk()
-
-        for item in self.user_info[self.sin]:
-            if repr(item) == option:
-                self.transfer_window = TransferWindow(self.master, self.action, item.balance)
-
-        self.transfer_window.back_button.config(command=self._main_page)
-        self.transfer_window.confirm_button.config(command=self._confirm_popup)
-
     def _confirm_popup(self):
-        for index in range(len(self.user_info[self.sin])):
-            if repr(self.user_info[self.sin][index]) == self.current_option:
-                if self.action == 'deposit':
-                    self.user_info[self.sin][index].balance += int(self.balance_window.input_entry.get())
-                elif self.action == 'withdraw':
-                    self.user_info[self.sin][index].balance -= int(self.balance_window.input_entry.get())
-                elif self.action == 'transfer':
-                    pass
+        money_entry = int(self.balance_window.input_entry.get())
+        accounts = self.user_info[self.sin]
+        success = "You just {} ${}".format(self.action, money_entry)
+        output = "Invalid Input!"
 
-        self.user_type_amount = self.balance_window.input_entry.get()
-        messagebox.showinfo("Action report", "You just {} ${}".format(self.action, self.user_type_amount))
+        for index in range(len(accounts)):
+            if repr(accounts[index]) == self.current_option:
+                if self.action == 'deposit':
+                    accounts[index].balance += money_entry
+                    output = success
+                elif self.action == 'withdraw':
+                    if money_entry < accounts[index].balance:
+                        accounts[index].balance -= money_entry
+                        output = success
+
+                elif self.action == 'transfer':
+                    if str(self.balance_window.destination_entry.get()) in self.user_info and \
+                                                                    money_entry < accounts[index].balance:
+                        accounts[index].balance -= money_entry
+                        output = success
+
+        messagebox.showinfo("Action report", output)
         self._main_page()
 
     # -----------------------------------Help Page--------------------------------------------------------
@@ -178,16 +174,6 @@ class Controller:
         self.main_help_page = Help(self.master)
         self.main_help_page.back_button.config(command=self._main_page)
 
-    # -------------------------------------------------------------------------------------------
-    @property
-    def user_dict(self):
-        user_file = {}
-        with open(USER_ACCOUNT_FILE, 'r') as file:
-            csv_file = csv.reader(file)
-            for row in csv_file:
-                if not row == []:
-                    user_file[row[0]] = row[1]
-        return user_file
 
 if __name__ == '__main__':
     root = Tk()
