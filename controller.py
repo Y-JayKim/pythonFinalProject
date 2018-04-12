@@ -24,11 +24,13 @@ class Controller:
 
         self.action = None
         self.data = Model()
-        self.data.read_password()
-        self.data.read_userinfo()
 
         self.user_password = self.data.user_password
         self.user_info = self.data.user_dict
+
+        self.max_account = 9999
+        for person in self.user_info:
+            self.max_account += len(self.user_info[person])
 
         self.LoginWindow = LoginWindow(self.master)
         self.LoginWindow.submit_button.config(command=self._login_page)
@@ -119,7 +121,6 @@ class Controller:
     def _term_saving_select(self):
             self._balance_page('term saving')
 
-
 # ---------------------------------------Current Balance-----------------------------------------
     def _balance_page(self, option):
         self.master.destroy()
@@ -144,31 +145,34 @@ class Controller:
         accounts = self.user_info[self.sin]
         success = "You just {} ${}".format(self.action, money_entry)
         output = "Invalid Input!"
+        destination_entry = str(self.balance_window.destination_entry.get())
+        dest = ''
 
         for index in range(len(accounts)):
             if repr(accounts[index]) == self.current_option:
                 if self.action == 'deposit':
                     accounts[index].balance += money_entry
-                    self.data.write_userinfo()
                     output = success
                 elif self.action == 'withdraw':
                     if money_entry < accounts[index].balance:
                         accounts[index].balance -= money_entry
-                        self.data.write_userinfo()
                         output = success
 
                 elif self.action == 'transfer':
-                    if str(self.balance_window.destination_entry.get()) in self.user_info and \
-                                                                    money_entry < accounts[index].balance:
-                        accounts[index].balance -= money_entry
+                    if 1000 <= int(destination_entry) <= self.max_account and \
+                                    money_entry < accounts[index].balance:
+                        for num in self.user_info:
+                            for account in self.user_info[num]:
+                                if account.acc_num == int(destination_entry):
+                                    account.balance -= money_entry
                         output = success
+                        dest = ' to Account {}'.format(destination_entry)
 
-        messagebox.showinfo("Action report", output)
+        if output != "Invalid Input!":
+            self.data.write_userinfo()
+        messagebox.showinfo("Action report", output + dest)
         self._main_page()
 
-    def _transfer(self):
-        pass
-    
     # -----------------------------------Help Page--------------------------------------------------------
     def _help_page(self):
         self.master.destroy()

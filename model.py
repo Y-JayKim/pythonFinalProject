@@ -18,8 +18,13 @@ class Model:
     def __init__(self):
         self.user_dict = {}
         self.user_password = {}
+        self.manager_account = {}
 
-    def read_userinfo(self):
+        self._read_userinfo()
+        self._read_password()
+        self._read_manager_account()
+
+    def _read_userinfo(self):
         with open(USER_INFO_FILE, 'r') as csv_file:
             csv_reader = csv.reader(csv_file)
 
@@ -49,13 +54,19 @@ class Model:
             for li in listoflist:
                 csv_writer.writerow(li)
 
+    def _read_manager_account(self):
+        with open(MANAGER_ACCOUNT_FILE, 'r') as file:
+            csv_file = csv.reader(file)
+            for row in csv_file:
+                self.manager_account[row[0]] = row[1]
+
     def read_log(self):
         pass
 
     def write_log(self):
         pass
 
-    def read_password(self):
+    def _read_password(self):
         with open(USER_ACCOUNT_FILE, 'r') as file:
             data = csv.reader(file)
             for row in data:

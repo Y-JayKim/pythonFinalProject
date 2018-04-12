@@ -8,6 +8,7 @@ import csv
 from operator import itemgetter
 from constant import *
 from model import Model
+import getpass
 import sys
 sys.path.insert(0, './BankAccount/')
 from chequing import Chequing
@@ -16,59 +17,16 @@ from term_saving import TermSaving
 
 
 # global
-user_dict = {}
-
-
-def manager_account():
-    manager = {}
-    with open(MANAGER_ACCOUNT_FILE, 'r') as file:
-        csv_file = csv.reader(file)
-        for row in csv_file:
-            manager[row[0]] = row[1]
-    return manager
+model = Model()
+user_dict = model.user_dict
+user_password = model.user_password
+manage_account = model.manager_account
 
 
 #------------------------Save and load file----------------------------
 def save_file():
-    global user_dict
-
-    storage = Model(user_dict)
-    storage.write_userinfo()
-    # listoflist = []
-    #
-    # for key in user_dict:
-    #     for value in user_dict[key]:
-    #         listoflist.append([value.acc_num, repr(value), key, value.balance])
-    # listoflist = sorted(listoflist, key=itemgetter(0))
-    #
-    # with open(USER_INFO_FILE, 'w') as file:
-    #     fieldnames = ['acc_num', 'account', 'sin', 'balance']
-    #     csv_writer = csv.writer(file)
-    #
-    #     csv_writer.writerow(fieldnames)
-    #     for li in listoflist:
-    #         csv_writer.writerow(li)
-
-
-def load_file():
-    global user_dict
-
-    storage = Model(user_dict)
-    storage.read_userinfo()
-    # with open(USER_INFO_FILE, 'r') as csv_file:
-    #     csv_reader = csv.reader(csv_file)
-    #     next(csv_reader)
-    #     for row in csv_reader:
-    #         if not row == []:
-    #             if row[2] not in user_dict:
-    #                 user_dict[row[2]] = []
-    #
-    #             if row[1] == 'chequing':
-    #                 user_dict[row[2]].append(Chequing(int(row[3])))
-    #             elif row[1] == 'saving':
-    #                 user_dict[row[2]].append(Saving(int(row[3])))
-    #             elif row[1] == 'term saving':
-    #                 user_dict[row[2]].append(TermSaving(int(row[3])))
+    global model
+    model.write_userinfo()
 
 
 #--------------------------------------------------------------------
@@ -167,9 +125,15 @@ def show_transaction():
         print('\nThe Client that matches with the SIN does not exist \n')
 
 
+#-------------------Change password for a pin------------------------
+def change_password():
+    username = input("Please enter the SIN:  ")
+    password = getpass.getpass("Password:  ")
+
+
 #-------------------------------Main---------------------------------
-def main(manage_account):
-    load_file()
+def main():
+    global manage_account
 
     print("--------------------------------------------------------------------\n")
     print("--------------------------------------------------------------------\n")
@@ -178,27 +142,30 @@ def main(manage_account):
     print("--------------------------------------------------------------------\n\n")
     print("Please Enter your username and password\n")
     username = input("Username:  ")
-    password = input("Password:  ")
+    password = getpass.getpass("Password:  ")
 
     while username != '' and password != '':
         if username in manage_account and password == manage_account[username]:
             print("Please select an option\n\n")
-            print("1.Create an User Account    | 2.Delete existing User Account \n3.User's Transaction Report | " \
-                  + "4. Show options again \n\t\t\t\t\t 0.Exit |\n\n")
+            print("1.Create an User Account    | 2.Delete existing User Account \n3.User's Transaction Report | "
+                  + "4. Change PIN\n5. Show options again       | 0.Exit \n\n")
             selection = input("Please Enter a Number above: ")
             while selection != '':
                 if selection == '1':
                     create()
-                    selection = '4'
+                    selection = '5'
                 elif selection == '2':
                     delete_account()
-                    selection = '4'
+                    selection = '5'
                 elif selection == '3':
                     show_transaction()
-                    selection = '4'
+                    selection = '5'
                 elif selection == '4':
-                    print("\n1.Create an User Account    | 2.Delete existing User Account \n" \
-                          + "3.User's Transaction Report | 4. Show options again \n\t\t\t\t\t 0.Exit |\n\n")
+                    change_password()
+                    selection = '5'
+                elif selection == '5':
+                    print("\n1.Create an User Account    | 2.Delete existing User Account \n"
+                          + "3.User's Transaction Report | 4. Change PIN\n5. Show options again \t    | 0.Exit\n\n")
                     selection = input("Please Enter a Number above: ")
                 elif selection == '0' or selection == 'exit':
                     break
@@ -211,10 +178,10 @@ def main(manage_account):
             print("\nWrong password!\n")
             print("Please Enter your username and password again\n")
             username = input("Username:  ")
-            password = input("Password:  ")
+            password = getpass.getpass("Password:  ")
 
     print("\nThank you for using Management Program!")
 
 
 if __name__ == '__main__':
-    main(manager_account())
+    main()
