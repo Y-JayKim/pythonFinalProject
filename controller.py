@@ -160,7 +160,7 @@ class Controller:
 
                 elif self.action == 'transfer':
                     if str(self.balance_window.destination_entry.get()) in self.user_info and \
-                                money_entry < accounts[index].balance:
+                                                                    money_entry < accounts[index].balance:
                         accounts[index].balance -= money_entry
                         output = success
 
@@ -174,16 +174,6 @@ class Controller:
         self.main_help_page = Help(self.master)
         self.main_help_page.back_button.config(command=self._main_page)
 
-    # -------------------------------------------------------------------------------------------
-    @property
-    def user_dict(self):
-        user_file = {}
-        with open(USER_ACCOUNT_FILE, 'r') as file:
-            csv_file = csv.reader(file)
-            for row in csv_file:
-                if not row == []:
-                    user_file[row[0]] = row[1]
-        return user_file
 
 if __name__ == '__main__':
     root = Tk()
