@@ -6,19 +6,16 @@
 # Transfer feature, QR code, Encryption, sin and pin add or del, print account info, one more button on main,
 # Delete number buttons
 
-import sys
-sys.path.insert(0, './GUI/')
 from tkinter import *
 from tkinter import messagebox
+from model import Model
+import sys
+sys.path.insert(0, './GUI/')
 from login_page import LoginWindow
 from current_balance import BalanceWindow
 from selection import SelectionWindow
 from main_page import MainWindow
-from model import Model
 from help_page import Help
-# from qr_login import BarCodeScanner
-import csv
-from constant import *
 
 
 class Controller:
