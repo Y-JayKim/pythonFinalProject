@@ -124,10 +124,6 @@ class Controller:
             self._amount_type_page('term saving')
 
 
-# ---------------------------------------Current Balance-----------------------------------------
-    def _balance_page(self, option):
-        pass
-
 # ---------------------------------------Amount Input-----------------------------------------
     def _amount_type_page(self, option):
         self.master.destroy()
@@ -168,7 +164,7 @@ class Controller:
                     destination_entry = str(self.balance_window.destination_entry.get())
 
                     if 1000 <= int(destination_entry) <= self.max_account and \
-                                    money_entry < accounts[index].balance:
+                                                                money_entry < accounts[index].balance:
                         for num in self.user_info:
                             for account in self.user_info[num]:
                                 if account.acc_num == int(destination_entry):
@@ -188,6 +184,7 @@ class Controller:
         self.master = Tk()
         self.main_help_page = Help(self.master)
         self.main_help_page.back_button.config(command=self._main_page)
+
 
 # ---------------------------------------Balance Display---------------------------------------------
     def _balance_page(self):
