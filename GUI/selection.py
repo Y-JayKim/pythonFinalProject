@@ -6,9 +6,10 @@
 #
 from tkinter import *
 
+
 class SelectionWindow:
     def __init__(self, parent, option):
-        self.master=parent
+        self.master = parent
         self.master.title("selection Window")
 
         # Frame
