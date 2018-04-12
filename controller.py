@@ -136,7 +136,8 @@ class Controller:
     def _open_help_page(self):
         self.master.destroy()
         self.master = Tk()
-        Help(self.master)
+        self.main_help_page=Help(self.master)
+        self.main_help_page.back_button.config(command=self._main_page)
 
     # -------------------------------------------------------------------------------------------
     @property
