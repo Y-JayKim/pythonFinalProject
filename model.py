@@ -8,7 +8,6 @@ import sys
 from constant import *
 import csv
 from operator import itemgetter
-from account_info_show import AccountInfo
 sys.path.insert(0, './BankAccount/')
 from chequing import Chequing
 from saving import Saving

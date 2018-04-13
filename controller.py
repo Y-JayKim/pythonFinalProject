@@ -11,14 +11,14 @@ from tkinter import messagebox
 from model import Model
 import sys
 sys.path.insert(0, './GUI/')
+from account_info_show import AccountInfo
 from login_page import LoginWindow
 from current_balance import BalanceWindow
 from selection import SelectionWindow
 from main_page import MainWindow
 from help_page import Help
 from balance_display import AccountBalance
-from account_info_show import AccountInfo
-from model import Model
+
 
 
 class Controller:
