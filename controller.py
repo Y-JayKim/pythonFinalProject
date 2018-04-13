@@ -162,6 +162,7 @@ class Controller:
             self.balance_window.destination_entry = Entry(self.balance_window.mid1_frame, width=20)
             self.balance_window.account_label.grid(row=2, column=1)
             self.balance_window.destination_entry.grid(row=3, column=1)
+            self.balance_window.destination_entry.bind("<Button-1>", self.balance_window.callback)
 
         self.balance_window.back_button.config(command=self._main_page)
         self.balance_window.confirm_button.config(command=self._confirm_popup)

@@ -10,10 +10,12 @@ from tkinter import *
 class BalanceWindow:
     def __init__(self, parent, option, balance=10000):
         self.balance = balance
-        self.master=parent
+        self.master = parent
         self.master.title("Current Balance")
 
         self.master.geometry('{}x{}'.format(210, 320))
+
+        self.current_clicking = None
 
         # Frame
         self.top_frame = Frame(self.master, width=200)
@@ -34,6 +36,8 @@ class BalanceWindow:
         self.input_label = Label(self.mid1_frame, text='{} Amount'.format(option))
         self.dollar_label = Label(self.mid1_frame, text="$")
         self.input_entry = Entry(self.mid1_frame, width=20)
+
+        self.input_entry.bind("<Button-1>", self.callback)
 
         self.number1_button = Button(self.mid2_frame, text="1")
         self.number2_button = Button(self.mid2_frame, text="2")
@@ -85,35 +89,38 @@ class BalanceWindow:
         # Bottom
         self.confirm_button.grid(row=2, column=0)
 
+    def callback(self, event):
+        self.current_clicking = event.widget
+
     def _num0(self):
-        self.input_entry.insert(END, '0')
+        self.current_clicking.insert(END, '0')
 
     def _num1(self):
-        self.input_entry.insert(END, '1')
+        self.current_clicking.insert(END, '1')
 
     def _num2(self):
-        self.input_entry.insert(END, '2')
+        self.current_clicking.insert(END, '2')
 
     def _num3(self):
-        self.input_entry.insert(END, '3')
+        self.current_clicking.insert(END, '3')
 
     def _num4(self):
-        self.input_entry.insert(END, '4')
+        self.current_clicking.insert(END, '4')
 
     def _num5(self):
-        self.input_entry.insert(END, '5')
+        self.current_clicking.insert(END, '5')
 
     def _num6(self):
-        self.input_entry.insert(END, '6')
+        self.current_clicking.insert(END, '6')
 
     def _num7(self):
-        self.input_entry.insert(END, '7')
+        self.current_clicking.insert(END, '7')
 
     def _num8(self):
-        self.input_entry.insert(END, '8')
+        self.current_clicking.insert(END, '8')
 
     def _num9(self):
-        self.input_entry.insert(END, '9')
+        self.current_clicking.insert(END, '9')
 
 
 if __name__ == "__main__":
