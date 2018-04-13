@@ -1,3 +1,9 @@
+# balance_display.py
+#
+# Shows the balance of each account
+#
+# Yeonjae Kim  /  Minsu Song
+#
 import sys
 
 sys.path.insert(0, './GUI/')
