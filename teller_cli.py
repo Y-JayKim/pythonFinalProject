@@ -1,11 +1,6 @@
-# management.py
-#
-# management CLI interface
-#
-# Yeonjae Kim   Minsu Song
-#
-import csv
-from operator import itemgetter
+from teller_SelectionView import ManageSelection
+from teller_LoginView import ManagementLogin
+from model import *
 from constant import *
 from model import Model
 import getpass
@@ -15,7 +10,6 @@ from chequing import Chequing
 from saving import Saving
 from term_saving import TermSaving
 
-
 # global
 model = Model()
 user_dict = model.user_dict
@@ -23,11 +17,10 @@ user_password = model.user_password
 manage_account = model.manager_account
 
 
-#------------------------Save and load file----------------------------
 def save_file():
     global model
     model.write_userinfo()
-    print(model.user_dict)
+
 
 #--------------------------------------------------------------------
 def sin_check():
@@ -146,54 +139,41 @@ def change_password():
         print('\nThere is no {} in the list\n'.format(username))
 
 
-#-------------------------------Main---------------------------------
 def main():
+    global model
     global manage_account
 
-    print("--------------------------------------------------------------------\n")
-    print("--------------------------------------------------------------------\n")
-    print("Hello, this program is for managing bank account\n")
-    print("--------------------------------------------------------------------\n")
-    print("--------------------------------------------------------------------\n\n")
-    print("Please Enter your username and password\n")
-    username = input("Username:  ")
-    password = getpass.getpass("Password:  ")
+    first_page = ManagementLogin()
+    first_page.asking_username()
 
-    while username != '' and password != '':
-        if username in manage_account and password == manage_account[username]:
-            print("Please select an option\n\n")
-            print("1.Create an User Account    | 2.Delete existing User Account \n3.User's Transaction Report | "
-                  + "4. Change PIN\n5. Show options again       | 0.Exit \n\n")
-            selection = input("Please Enter a Number above: ")
-            while selection != '':
-                if selection == '1':
+    while first_page.username != '' and first_page.password != '':
+        if first_page.username in manage_account and first_page.password == manage_account[first_page.username]:
+            second_page = ManageSelection()
+            second_page.selection_page()
+
+            while second_page.selection != '':
+                if second_page.selection == '1':
                     create()
-                    selection = '5'
-                elif selection == '2':
+                    second_page.selection = '5'
+                elif second_page.selection == '2':
                     delete_account()
-                    selection = '5'
-                elif selection == '3':
+                    second_page.selection = '5'
+                elif second_page.selection == '3':
                     show_transaction()
-                    selection = '5'
-                elif selection == '4':
+                    second_page.selection = '5'
+                elif second_page.selection == '4':
                     change_password()
-                    selection = '5'
-                elif selection == '5':
-                    print("\n1.Create an User Account    | 2.Delete existing User Account \n"
-                          + "3.User's Transaction Report | 4. Change PIN\n5. Show options again \t    | 0.Exit\n\n")
-                    selection = input("Please Enter a Number above: ")
-                elif selection == '0' or selection == 'exit':
+                    second_page.selection = '5'
+                elif second_page.selection == '5':
+                    second_page.selection_page()
+                elif second_page.selection == '0' or second_page.selection == 'exit':
                     break
                 else:
-                    print("\nInvalid Input. Please try again.\n")
-                    print("Enter 6 to see the menu again\n")
-                    selection = input("Please Enter a Number: ")
+                    second_page.not_in_option()
+                save_file()
             break
         else:
-            print("\nWrong password!\n")
-            print("Please Enter your username and password again\n")
-            username = input("Username:  ")
-            password = getpass.getpass("Password:  ")
+            first_page.wrong_password()
 
     print("\nThank you for using Management Program!")
 
