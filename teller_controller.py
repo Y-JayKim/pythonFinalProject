@@ -1,17 +1,19 @@
-from teller_SelectionView import ManageSelection
-from teller_LoginView import ManagementLogin
 from model import *
 from constant import *
 from model import Model
-from create_view import CreateView
-from delete_view import DeleteView
-from transaction_view import TransactionView
-from changePassword_view import ChangePasswordView
+
 import sys
 sys.path.insert(0, './BankAccount/')
 from chequing import Chequing
 from saving import Saving
 from term_saving import TermSaving
+sys.path.inser(0, './CLI')
+from create_view import CreateView
+from delete_view import DeleteView
+from transaction_view import TransactionView
+from changePassword_view import ChangePasswordView
+from teller_SelectionView import ManageSelection
+from teller_LoginView import ManagementLogin
 
 
 class TellerController:
