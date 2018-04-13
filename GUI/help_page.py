@@ -1,7 +1,6 @@
 import sys
 sys.path.insert(0, './GUI/')
 from tkinter import *
-from main_menu import MainMenu
 
 class Help:
     def __init__(self, parent):

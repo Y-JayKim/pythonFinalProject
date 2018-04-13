@@ -1,4 +1,4 @@
-# menu.py
+# main_menu.py
 #
 # Menu Class for every Window
 #
@@ -11,7 +11,6 @@ class MainMenu:
     def __init__(self, parent):
         self.master = parent
         self.master.title("Login Window")
-        # self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold", slant="italic")
 
         # Calling Menu Widget
         self.main_menu = Menu(self.master)
