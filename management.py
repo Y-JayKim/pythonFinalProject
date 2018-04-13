@@ -106,8 +106,6 @@ def delete_account():
     else:
         print('\nThe Client that matches with the SIN does not exist \n')
 
-    print(user_dict)
-
 
 #------------------Show Account Detail---------------------------------
 def show_transaction():
