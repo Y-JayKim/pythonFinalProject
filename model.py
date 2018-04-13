@@ -8,13 +8,11 @@ import sys
 from constant import *
 import csv
 from operator import itemgetter
+from account_info_show import AccountInfo
 sys.path.insert(0, './BankAccount/')
 from chequing import Chequing
 from saving import Saving
 from term_saving import TermSaving
-sys.path.insert(0, './GUI/')
-from account_info_show import AccountInfo
-
 
 class Model:
     def __init__(self):
@@ -63,13 +61,13 @@ class Model:
             for row in csv_file:
                 self.manager_account[self.decrypting_letters(row[0])] = self.decrypting_letters(row[1])
 
-    def _read_log(self, acc_num):
-        file= open(acc_num+"_log.txt")
-        history = file.readlines()
-        file.close()
-        names = [name.split("::") for name in history]
-        for name in names:
-            AccountInfo.name_listbox.insert(-1, name)
+    def read_log(self, acc_num):
+        history_list = []
+        with open(str(acc_num)+"_log.txt") as file:
+            history = file.read()
+            for item in history.split("::"):
+                history_list.append(item.split(':'))
+        return history_list[:-1]
 
     def write_log(self):
         pass
@@ -110,6 +108,6 @@ class Model:
             outcome += chr(int(i))
         return outcome
 
-
 if __name__ == '__main__':
     m = Model()
+    m._read_log(10000)

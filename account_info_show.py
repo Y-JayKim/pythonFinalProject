@@ -38,7 +38,7 @@ class AccountInfo:
         self.account_type.grid(row=0,column=1)
 
         #---------------------------------History Listbox---------------------------------------------------
-        self.name_listbox = Listbox(self.acc_history_frame,height=10, width=20, selectmode=SINGLE)
+        self.name_listbox = Listbox(self.acc_history_frame,height=10, width=40, selectmode=SINGLE)
         self.name_scrollbar = Scrollbar(self.acc_history_frame, orient='vertical')
         self.name_scrollbar.config(command=self.name_listbox.yview)
         self.name_listbox.config(yscrollcommand=self.name_scrollbar.set)

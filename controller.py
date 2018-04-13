@@ -105,18 +105,18 @@ class Controller:
         if len(self.user_info[self.sin]) > 0:
             for item in self.user_info[self.sin]:
                 if 'saving' == repr(item):
-                    self.save_num = item.acc_num
+                    self.action_acc_num = item.acc_num
                     selection_window.saving_button.grid(row=0, column=0, padx=5, pady=5)
                 if 'chequing' == repr(item):
-                    self.cheq_num=str(item.acc_num)
+                    self.action_acc_num=str(item.acc_num)
                     selection_window.chequing_button.grid(row=0, column=1, padx=5, pady=5)
                 if 'term saving' == repr(item):
-                    self.term_num = item.acc_num
+                    self.action_acc_num = item.acc_num
                     selection_window.term_saving_button.grid(row=0, column=2, padx=5, pady=5)
 
         if self.action == "print_info":
-            selection_window.saving_button.config(command=self._account_history_saving)
-            selection_window.chequing_button.config(command=self._account_history_chequing)
+            selection_window.saving_button.config(command=self._account_history_termsaving)
+            selection_window.chequing_button.config(command=self._account_history_termsaving)
             selection_window.term_saving_button.config(command=self._account_history_termsaving)
         else:
             selection_window.saving_button.config(command=self._saving_select)
@@ -133,25 +133,30 @@ class Controller:
     def _term_saving_select(self):
         self._amount_type_page('term saving')
 
-    def _account_history_saving(self):
-        self.master.destroy()
-        self.master = Tk()
-        acc_window_back=AccountInfo(self.master,"Saving")
-        acc_window_back.back_button.config(command=self._main_page)
-
-    def _account_history_chequing(self):
-        self.master.destroy()
-        self.master = Tk()
-        acc_window_back =AccountInfo(self.master,"Chequing")
-        acc_window_back.back_button.config(command=self._main_page)
-        Model(self.master)._read_log(self.cheq_num)
+    # def _account_history_saving(self):
+    #     self.master.destroy()
+    #     self.master = Tk()
+    #     acc_window_back=AccountInfo(self.master,"Saving")
+    #     acc_window_back.back_button.config(command=self._main_page)
+    #
+    # def _account_history_chequing(self):
+    #     self.master.destroy()
+    #     self.master = Tk()
+    #     acc_window_back =AccountInfo(self.master,"Chequing")
+    #     acc_window_back.back_button.config(command=self._main_page)
+    #     transaction_log = self.data.read_log(self.action_acc_num)
+    #     acc_window_back.name_listbox.insert(0,transaction_log)
 
     def _account_history_termsaving(self):
         self.master.destroy()
         self.master = Tk()
-        acc_window_back=AccountInfo(self.master,"Term Saving")
+        acc_window_back=AccountInfo(self.master,acc_type)
         acc_window_back.back_button.config(command=self._main_page)
 
+        transaction_log = self.data.read_log(self.action_acc_num)
+        for each_log in transaction_log:
+            each_line=("You {} ${} on {}".format(each_log[0], each_log[1], each_log[-1]))
+            acc_window_back.name_listbox.insert(0, each_line)
 
 # ---------------------------------------Amount Input-----------------------------------------
     def _amount_type_page(self, option):
