@@ -1,6 +1,6 @@
-# login_page.py
+# controller.py
 #
-# Log in window for Account.py
+# Starting page of the program
 #
 # Yeonjae Kim  /  Minsu Song
 # Transfer feature, QR code, Encryption, sin and pin add or del, print account info, one more button on main,
@@ -114,6 +114,7 @@ class Controller:
                 if 'term saving' == repr(item):
                     self.action_acc_num = item.acc_num
                     self.acc_saving = str(repr(item))
+                    print(self.acc_saving)
                     selection_window.term_saving_button.grid(row=0, column=2, padx=5, pady=5)
 
         if self.action == "print_info":
