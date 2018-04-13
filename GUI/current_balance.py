@@ -71,8 +71,49 @@ class BalanceWindow:
         self.number9_button.grid(row=2, column=3)
         self.number0_button.grid(row=3, column=2)
 
+        self.number0_button.config(command=self._num0)
+        self.number1_button.config(command=self._num1)
+        self.number2_button.config(command=self._num2)
+        self.number3_button.config(command=self._num3)
+        self.number4_button.config(command=self._num4)
+        self.number5_button.config(command=self._num5)
+        self.number6_button.config(command=self._num6)
+        self.number7_button.config(command=self._num7)
+        self.number8_button.config(command=self._num8)
+        self.number9_button.config(command=self._num9)
+
         # Bottom
         self.confirm_button.grid(row=2, column=0)
+
+    def _num0(self):
+        self.input_entry.insert(END, '0')
+
+    def _num1(self):
+        self.input_entry.insert(END, '1')
+
+    def _num2(self):
+        self.input_entry.insert(END, '2')
+
+    def _num3(self):
+        self.input_entry.insert(END, '3')
+
+    def _num4(self):
+        self.input_entry.insert(END, '4')
+
+    def _num5(self):
+        self.input_entry.insert(END, '5')
+
+    def _num6(self):
+        self.input_entry.insert(END, '6')
+
+    def _num7(self):
+        self.input_entry.insert(END, '7')
+
+    def _num8(self):
+        self.input_entry.insert(END, '8')
+
+    def _num9(self):
+        self.input_entry.insert(END, '9')
 
 
 if __name__ == "__main__":
