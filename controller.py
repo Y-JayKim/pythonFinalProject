@@ -104,10 +104,13 @@ class Controller:
         if len(self.user_info[self.sin]) > 0:
             for item in self.user_info[self.sin]:
                 if 'saving' == repr(item):
+                    print(item)
                     selection_window.saving_button.grid(row=0, column=0, padx=5, pady=5)
                 if 'chequing' == repr(item):
+                    print(item)
                     selection_window.chequing_button.grid(row=0, column=1, padx=5, pady=5)
                 if 'term saving' == repr(item):
+                    print(item)
                     selection_window.term_saving_button.grid(row=0, column=2, padx=5, pady=5)
 
         if self.action == "print_info":
@@ -119,6 +122,14 @@ class Controller:
             selection_window.chequing_button.config(command=self._chequing_select)
             selection_window.term_saving_button.config(command=self._term_saving_select)
         selection_window.back_button.config(command=self._main_page)
+
+        # for num in self.user_info:
+        #     for account in self.user_info[num]:
+        #         print(account.acc_num)
+        #         if account.acc_num == int(destination_entry):
+        #             account.balance -= money_entry
+        # output = success
+        # dest = ' to Account {}'.format(destination_entry)
 
     def _saving_select(self):
             self._amount_type_page('saving')
