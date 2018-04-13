@@ -101,21 +101,19 @@ class Controller:
         self.master.destroy()
         self.master = Tk()
         selection_window = SelectionWindow(self.master, self.action)
-
-        for item in self.user_info[self.sin]:
-            if 'saving' == repr(item):
-                selection_window.saving_button.grid(row=0, column=0, padx=5, pady=5)
-            if 'chequing' == repr(item):
-                selection_window.chequing_button.grid(row=0, column=1, padx=5, pady=5)
-            if 'term saving' == repr(item):
-                selection_window.term_saving_button.grid(row=0, column=2, padx=5, pady=5)
+        if len(self.user_info[self.sin]) > 0:
+            for item in self.user_info[self.sin]:
+                if 'saving' == repr(item):
+                    selection_window.saving_button.grid(row=0, column=0, padx=5, pady=5)
+                if 'chequing' == repr(item):
+                    selection_window.chequing_button.grid(row=0, column=1, padx=5, pady=5)
+                if 'term saving' == repr(item):
+                    selection_window.term_saving_button.grid(row=0, column=2, padx=5, pady=5)
 
         if self.action == "print_info":
-            print(self.action)
-            print("WPW")
             selection_window.saving_button.config(command=self._account_history_saving)
-            # selection_window.chequing_button.config(command=self._chequing_select)
-            # selection_window.term_saving_button.config(command=self._term_saving_select)
+            selection_window.chequing_button.config(command=self._account_history_chequing)
+            selection_window.term_saving_button.config(command=self._account_history_termsaving)
         else:
             selection_window.saving_button.config(command=self._saving_select)
             selection_window.chequing_button.config(command=self._chequing_select)
@@ -134,17 +132,20 @@ class Controller:
     def _account_history_saving(self):
         self.master.destroy()
         self.master = Tk()
-        AccountInfo(self.master,"Saving")
+        acc_window_back=AccountInfo(self.master,"Saving")
+        acc_window_back.back_button.config(command=self._main_page)
 
     def _account_history_chequing(self):
         self.master.destroy()
         self.master = Tk()
-        AccountInfo(self.master,"Chequing")
+        acc_window_back =AccountInfo(self.master,"Chequing")
+        acc_window_back.back_button.config(command=self._main_page)
 
     def _account_history_termsaving(self):
         self.master.destroy()
         self.master = Tk()
-        AccountInfo(self.master,"Term Saving")
+        acc_window_back=AccountInfo(self.master,"Term Saving")
+        acc_window_back.back_button.config(command=self._main_page)
 
 
 # ---------------------------------------Amount Input-----------------------------------------
@@ -230,7 +231,6 @@ class Controller:
             self.balance_show_label = Label(self.existing_acc_window.balance_frame, text=item.balance)
             self.balance_show_label.grid(row=row1, column=1, pady=10)
         self.existing_acc_window.back_button.config(command=self._main_page)
-        pass
 
 if __name__ == '__main__':
     root = Tk()
