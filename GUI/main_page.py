@@ -26,7 +26,7 @@ class MainWindow:
         self.left_bottom_button = Button(self.left_frame, text="Check\nBalance", width=10, height=5)
 
         self.right_top_button = Button(self.right_frame, text="Transfer", width=10, height=5)
-        self.right_mid_button = Button(self.right_frame, text="Show Account\n Information", width=10, height=5)
+        self.right_mid_button = Button(self.right_frame, text="Account\n History", width=10, height=5)
         self.right_bottom_button = Button(self.right_frame, text="Help", width=10, height=5)
 
         # Place Widgets On Window

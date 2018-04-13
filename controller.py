@@ -17,6 +17,7 @@ from selection import SelectionWindow
 from main_page import MainWindow
 from help_page import Help
 from balance_display import AccountBalance
+from account_info_show import AccountInfo
 
 
 class Controller:
@@ -72,25 +73,25 @@ class Controller:
         main_window.right_bottom_button.config(command=self.help)
 
     def deposit(self):
-        self._selection_page()
         self.action = "deposit"
+        self._selection_page()
 
     def withdraw(self):
-        self._selection_page()
         self.action = "withdraw"
+        self._selection_page()
 
     def transfer(self):
-        self._selection_page()
         self.action = "transfer"
+        self._selection_page()
 
-    # On Work
     def check_balance(self):
-        self._balance_page()
         self.action = "balance"
+        self._balance_page()
 
+#????????????????????????????????????????????????????????????????????????????????????????????????????????????
     def print_info(self):
-        messagebox.showinfo("Button", "Information Check")
-        pass
+        self.action = "print_info"
+        self._selection_page()
 
     def help(self):
         self._help_page()
@@ -109,9 +110,16 @@ class Controller:
             if 'term saving' == repr(item):
                 selection_window.term_saving_button.grid(row=0, column=2, padx=5, pady=5)
 
-        selection_window.saving_button.config(command=self._saving_select)
-        selection_window.chequing_button.config(command=self._chequing_select)
-        selection_window.term_saving_button.config(command=self._term_saving_select)
+        if self.action == "print_info":
+            print(self.action)
+            print("WPW")
+            selection_window.saving_button.config(command=self._saving_select)
+            # selection_window.chequing_button.config(command=self._chequing_select)
+            # selection_window.term_saving_button.config(command=self._term_saving_select)
+        else:
+            selection_window.saving_button.config(command=self._saving_select)
+            selection_window.chequing_button.config(command=self._chequing_select)
+            selection_window.term_saving_button.config(command=self._term_saving_select)
         selection_window.back_button.config(command=self._main_page)
 
     def _saving_select(self):
@@ -207,7 +215,7 @@ class Controller:
             self.balance_show_label = Label(self.existing_acc_window.balance_frame, text=item.balance)
             self.balance_show_label.grid(row=row1, column=1, pady=10)
         self.existing_acc_window.back_button.config(command=self._main_page)
-
+        pass
 
 if __name__ == '__main__':
     root = Tk()
