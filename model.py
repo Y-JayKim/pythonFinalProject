@@ -16,6 +16,7 @@ from term_saving import TermSaving
 
 class Model:
     def __init__(self):
+        pass
         self.user_dict = {}
         self.user_password = {}
         self.manager_account = {}
@@ -25,23 +26,29 @@ class Model:
         self._read_manager_account()
 
     def _read_userinfo(self):
+        decrypted_list = []
         with open(USER_INFO_FILE, 'r') as csv_file:
             csv_reader = csv.reader(csv_file)
-
             for row in csv_reader:
                 if not row == []:
-                    if row[2] not in self.user_dict:
-                        self.user_dict[row[2]] = []
+                    for item in row:
+                        decrypted_list.append(self.decrypting_letters(item))
+                    if decrypted_list[2] not in self.user_dict:
+                        self.user_dict[decrypted_list[2]] = []
 
-                    if row[1] == 'chequing':
-                        self.user_dict[row[2]].append(Chequing(row[2], int(row[3])))
-                    elif row[1] == 'saving':
-                        self.user_dict[row[2]].append(Saving(row[2], int(row[3])))
-                    elif row[1] == 'term saving':
-                        self.user_dict[row[2]].append(TermSaving(row[2], int(row[3])))
+                    if decrypted_list[1] == 'chequing':
+                        self.user_dict[decrypted_list[2]].append(Chequing(decrypted_list[2], int(decrypted_list[3])))
+                    elif decrypted_list[1] == 'saving':
+                        self.user_dict[decrypted_list[2]].append(Saving(decrypted_list[2], int(decrypted_list[3])))
+                    elif decrypted_list[1] == 'term saving':
+                        self.user_dict[decrypted_list[2]].append(TermSaving(decrypted_list[2], int(decrypted_list[3])))
+                decrypted_list = []
+        if '000000000' not in self.user_dict:
+            self.user_dict['000000000'] = []
 
     def write_userinfo(self):
         listoflist = []
+        encrypted_list = []
 
         for key in self.user_dict:
             for value in self.user_dict[key]:
@@ -52,13 +59,15 @@ class Model:
             csv_writer = csv.writer(file)
 
             for li in listoflist:
-                csv_writer.writerow(li)
+                for encry in li:
+                    encrypted_list.append(self.encrypting_letters(str(encry)))
+                csv_writer.writerow(encrypted_list)
 
     def _read_manager_account(self):
         with open(MANAGER_ACCOUNT_FILE, 'r') as file:
             csv_file = csv.reader(file)
             for row in csv_file:
-                self.manager_account[row[0]] = row[1]
+                self.manager_account[self.decrypting_letters(row[0])] = self.decrypting_letters(row[1])
 
     def read_log(self):
         pass
@@ -70,15 +79,38 @@ class Model:
         with open(USER_ACCOUNT_FILE, 'r') as file:
             data = csv.reader(file)
             for row in data:
+                print(row)
                 if row:
-                    self.user_password[row[0]] = row[1]
+                    self.user_password[self.decrypting_letters(str(row[0]))] = self.decrypting_letters(str(row[1]))
 
-    def write_password(self, identity, password):
-        self.user_password[identity] = password
+    def write_password(self, identity, passwrd):
+        encrypted_password = {}
+
+        self.user_password[identity] = passwrd
+
+        for user in self.user_password:
+            user_encoded = self.encrypting_letters(user)
+            pass_encoded = self.encrypting_letters(self.user_password[user])
+
+            encrypted_password[user_encoded] = pass_encoded
+
         with open(USER_ACCOUNT_FILE, 'w') as file:
             data = csv.writer(file)
-            for key in self.user_password:
-                data.writerow([key, self.user_password[key]])
+            for key in encrypted_password:
+                data.writerow([key, encrypted_password[key]])
+
+    def encrypting_letters(self, letter):
+        outcome = ''
+        for i in letter:
+            outcome += str(ord(i))+':'
+        return outcome[:-1]
+
+    def decrypting_letters(self, letter):
+        outcome = ''
+        letter_list = letter.split(':')
+        for i in letter_list:
+            outcome += chr(int(i))
+        return outcome
 
 
 if __name__ == '__main__':

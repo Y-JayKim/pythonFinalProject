@@ -27,7 +27,7 @@ manage_account = model.manager_account
 def save_file():
     global model
     model.write_userinfo()
-
+    print(model.user_dict)
 
 #--------------------------------------------------------------------
 def sin_check():
@@ -69,9 +69,11 @@ def create():
 
 def create_account(sin, account):
     global user_dict
+    global model
 
     if sin not in user_dict:
         user_dict[sin] = []
+        model.write_password(sin, '123')
 
     if not exist_account(account, sin):
         if account == 'chequing':
@@ -80,12 +82,10 @@ def create_account(sin, account):
             user_dict[sin].append(Saving(sin))
         elif account == 'term saving':
             user_dict[sin].append(TermSaving(sin))
-        else:
-            print('Erorr!! Handling is needed')
+
+        save_file()
     else:
         print('\nThe client already has {} account\n'.format(account))
-
-    print(user_dict)
 
 
 #------------------ Deleting Account---------------------------------
@@ -94,9 +94,11 @@ def delete_account():
 
     if sin in user_dict:
         account_choice = input('Please enter account you want to delete:\t')
-        for account in user_dict[sin]:
-            if account_choice == repr(account):
-                user_dict[sin].remove(account)
+        for ind in range(len(user_dict[sin])):
+            if account_choice == repr(user_dict[sin][ind]):
+                user_dict[sin][ind].name = 000000000
+                user_dict['000000000'].append(user_dict[sin][ind])
+                user_dict[sin].pop(ind)
                 save_file()
                 return True
 
@@ -127,8 +129,23 @@ def show_transaction():
 
 #-------------------Change password for a pin------------------------
 def change_password():
+    global user_password
+
     username = input("Please enter the SIN:  ")
-    password = getpass.getpass("Password:  ")
+    if username in user_password:
+        password = getpass.getpass("Current Password:  ")
+        if password == user_password[username]:
+            new_password = getpass.getpass('New Password:  ')
+            new_password2 = getpass.getpass("Re-New Password:  ")
+            if new_password == new_password2:
+                model.write_password(username, new_password)
+                print('\nPassword has been changed\n')
+            else:
+                print("\nPassword does not match\n")
+        else:
+            print('\nInvalid Password\n')
+    else:
+        print('\nThere is no {} in the list\n'.format(username))
 
 
 #-------------------------------Main---------------------------------
