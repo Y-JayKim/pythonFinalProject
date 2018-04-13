@@ -89,7 +89,6 @@ class Controller:
         self.action = "balance"
         self._balance_page()
 
-#????????????????????????????????????????????????????????????????????????????????????????????????????????????
     def print_info(self):
         self.action = "print_info"
         self._selection_page()
@@ -106,12 +105,15 @@ class Controller:
             for item in self.user_info[self.sin]:
                 if 'saving' == repr(item):
                     self.action_acc_num = item.acc_num
+                    self.acc_saving = str(repr(item))
                     selection_window.saving_button.grid(row=0, column=0, padx=5, pady=5)
                 if 'chequing' == repr(item):
                     self.action_acc_num=str(item.acc_num)
+                    self.acc_saving=str(repr(item))
                     selection_window.chequing_button.grid(row=0, column=1, padx=5, pady=5)
                 if 'term saving' == repr(item):
                     self.action_acc_num = item.acc_num
+                    self.acc_saving = str(repr(item))
                     selection_window.term_saving_button.grid(row=0, column=2, padx=5, pady=5)
 
         if self.action == "print_info":
@@ -120,40 +122,30 @@ class Controller:
             selection_window.term_saving_button.config(command=self._account_history_termsaving)
         else:
             selection_window.saving_button.config(command=self._saving_select)
-            selection_window.chequing_button.config(command=self._chequing_select)
-            selection_window.term_saving_button.config(command=self._term_saving_select)
+            selection_window.chequing_button.config(command=self._saving_select)
+            selection_window.term_saving_button.config(command=self._saving_select)
         selection_window.back_button.config(command=self._main_page)
 
+    #이거 이렇게 해도 가능한가요?? line 125~127 하고 130~140 체크부탁드릴게요
     def _saving_select(self):
-            self._amount_type_page('saving')
+            self._amount_type_page(self.acc_saving)
+            # self._amount_type_page('saving')
 
-    def _chequing_select(self):
-        self._amount_type_page('chequing')
+    # def _chequing_select(self):
+    #     self._amount_type_page(self.acc_saving)
+        # self._amount_type_page('chequing')
 
-    def _term_saving_select(self):
-        self._amount_type_page('term saving')
-
-    # def _account_history_saving(self):
-    #     self.master.destroy()
-    #     self.master = Tk()
-    #     acc_window_back=AccountInfo(self.master,"Saving")
-    #     acc_window_back.back_button.config(command=self._main_page)
-    #
-    # def _account_history_chequing(self):
-    #     self.master.destroy()
-    #     self.master = Tk()
-    #     acc_window_back =AccountInfo(self.master,"Chequing")
-    #     acc_window_back.back_button.config(command=self._main_page)
-    #     transaction_log = self.data.read_log(self.action_acc_num)
-    #     acc_window_back.name_listbox.insert(0,transaction_log)
+    # def _term_saving_select(self):
+    #     self._amount_type_page(self.acc_saving)
+        # self._amount_type_page('term saving')
 
     def _account_history_termsaving(self):
         self.master.destroy()
         self.master = Tk()
-        acc_window_back=AccountInfo(self.master,acc_type)
+        acc_window_back=AccountInfo(self.master,self.acc_saving)
         acc_window_back.back_button.config(command=self._main_page)
 
-        transaction_log = self.data.read_log(self.action_acc_num)
+        transaction_log = self.data.read_write_log(self.action_acc_num)
         for each_log in transaction_log:
             each_line=("You {} ${} on {}".format(each_log[0], each_log[1], each_log[-1]))
             acc_window_back.name_listbox.insert(0, each_line)

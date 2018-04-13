@@ -28,8 +28,6 @@ class AccountInfo:
 
         self.balance_label = Label(self.top_frame, text="Account History")
         self.balance_label.grid(row=0, column=1, padx=(50, 0),pady=(10,0))
-        # self.balance_show_label = Label(self.top_frame, text=self.balance)
-        # self.balance_show_label.grid(row=0, column=2, pady=(10, 0))
 
         #-----------------------------------Account Info Display----------------------------------------------------
         self.account_type_show = Label(self.accinfo_frame, text="Account Type: ")

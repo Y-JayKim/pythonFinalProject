@@ -61,16 +61,13 @@ class Model:
             for row in csv_file:
                 self.manager_account[self.decrypting_letters(row[0])] = self.decrypting_letters(row[1])
 
-    def read_log(self, acc_num):
+    def read_write_log(self, acc_num):
         history_list = []
         with open(str(acc_num)+"_log.txt") as file:
             history = file.read()
             for item in history.split("::"):
                 history_list.append(item.split(':'))
         return history_list[:-1]
-
-    def write_log(self):
-        pass
 
     def _read_password(self):
         with open(USER_ACCOUNT_FILE, 'r') as file:
@@ -110,4 +107,3 @@ class Model:
 
 if __name__ == '__main__':
     m = Model()
-    m._read_log(10000)
