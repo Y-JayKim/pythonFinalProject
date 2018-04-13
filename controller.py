@@ -121,14 +121,14 @@ class Controller:
             selection_window.chequing_button.config(command=self._account_history_termsaving)
             selection_window.term_saving_button.config(command=self._account_history_termsaving)
         else:
-            selection_window.saving_button.config(command=self._saving_select)
-            selection_window.chequing_button.config(command=self._saving_select)
-            selection_window.term_saving_button.config(command=self._saving_select)
+            selection_window.saving_button.config(command=self._amount_type_page)
+            selection_window.chequing_button.config(command=self._amount_type_page)
+            selection_window.term_saving_button.config(command=self._amount_type_page)
         selection_window.back_button.config(command=self._main_page)
 
     #이거 이렇게 해도 가능한가요?? line 125~127 하고 130~140 체크부탁드릴게요
-    def _saving_select(self):
-            self._amount_type_page(self.acc_saving)
+    # def _saving_select(self):
+    #         self._amount_type_page(self.acc_saving)
             # self._amount_type_page('saving')
 
     # def _chequing_select(self):
@@ -151,13 +151,13 @@ class Controller:
             acc_window_back.name_listbox.insert(0, each_line)
 
 # ---------------------------------------Amount Input-----------------------------------------
-    def _amount_type_page(self, option):
+    def _amount_type_page(self):
         self.master.destroy()
         self.master = Tk()
 
         for item in self.user_info[self.sin]:
-            if repr(item) == option:
-                self.current_option = option
+            if repr(item) == self.acc_saving:
+                self.current_option = self.acc_saving
                 self.balance_window = BalanceWindow(self.master, self.action, item.balance)
 
         if self.action == 'transfer':
