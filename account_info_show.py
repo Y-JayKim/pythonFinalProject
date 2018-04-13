@@ -4,7 +4,7 @@ sys.path.insert(0, './GUI/')
 from tkinter import *
 
 class AccountInfo:
-    def __init__(self, parent):
+    def __init__(self, parent,acc_type):
         self.master = parent
         # self.balance = balance
         self.master.title("Account Information Window")
@@ -28,9 +28,9 @@ class AccountInfo:
 
         #-----------------------------------Account Info Display----------------------------------------------------
         self.account_type_show = Label(self.accinfo_frame, text="Account Type: ")
-        self.account_number_show = Label(self.accinfo_frame, text="Account Number: ")
         self.account_type_show.grid(row=0)
-        self.account_number_show.grid(row=1)
+        self.account_type=Label(self.accinfo_frame, text=acc_type)
+        self.account_type.grid(row=0,column=1)
 
         #---------------------------------History Listbox---------------------------------------------------
         self.name_listbox = Listbox(self.acc_history_frame,height=10, width=20, selectmode=SINGLE)
@@ -43,5 +43,5 @@ class AccountInfo:
 
 if __name__ == '__main__':
     root = Tk()
-    AccountInfo(root)
+    AccountInfo(root,"ACCOUNT")
     mainloop()

@@ -113,7 +113,7 @@ class Controller:
         if self.action == "print_info":
             print(self.action)
             print("WPW")
-            selection_window.saving_button.config(command=self._saving_select)
+            selection_window.saving_button.config(command=self._account_history_saving)
             # selection_window.chequing_button.config(command=self._chequing_select)
             # selection_window.term_saving_button.config(command=self._term_saving_select)
         else:
@@ -130,6 +130,21 @@ class Controller:
 
     def _term_saving_select(self):
             self._amount_type_page('term saving')
+
+    def _account_history_saving(self):
+        self.master.destroy()
+        self.master = Tk()
+        AccountInfo(self.master,"Saving")
+
+    def _account_history_chequing(self):
+        self.master.destroy()
+        self.master = Tk()
+        AccountInfo(self.master,"Chequing")
+
+    def _account_history_termsaving(self):
+        self.master.destroy()
+        self.master = Tk()
+        AccountInfo(self.master,"Term Saving")
 
 
 # ---------------------------------------Amount Input-----------------------------------------
