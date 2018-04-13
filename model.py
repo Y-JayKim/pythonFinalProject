@@ -1,6 +1,6 @@
-# login_page.py
+# model.py
 #
-# Log in window for Account.py
+# File opening and writing
 #
 # Yeonjae Kim  /  Minsu Song
 #
@@ -12,6 +12,8 @@ sys.path.insert(0, './BankAccount/')
 from chequing import Chequing
 from saving import Saving
 from term_saving import TermSaving
+sys.path.insert(0, './GUI/')
+from account_info_show import AccountInfo
 
 
 class Model:
@@ -61,8 +63,13 @@ class Model:
             for row in csv_file:
                 self.manager_account[self.decrypting_letters(row[0])] = self.decrypting_letters(row[1])
 
-    def read_log(self):
-        pass
+    def _read_log(self, acc_num):
+        file= open(acc_num+"_log.txt")
+        history = file.readlines()
+        file.close()
+        names = [name.split("::") for name in history]
+        for name in names:
+            AccountInfo.name_listbox.insert(-1, name)
 
     def write_log(self):
         pass
@@ -106,4 +113,3 @@ class Model:
 
 if __name__ == '__main__':
     m = Model()
-

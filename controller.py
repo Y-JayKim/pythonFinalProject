@@ -18,6 +18,7 @@ from main_page import MainWindow
 from help_page import Help
 from balance_display import AccountBalance
 from account_info_show import AccountInfo
+from model import Model
 
 
 class Controller:
@@ -104,13 +105,13 @@ class Controller:
         if len(self.user_info[self.sin]) > 0:
             for item in self.user_info[self.sin]:
                 if 'saving' == repr(item):
-                    print(item)
+                    self.save_num = item.acc_num
                     selection_window.saving_button.grid(row=0, column=0, padx=5, pady=5)
                 if 'chequing' == repr(item):
-                    print(item)
+                    self.cheq_num=str(item.acc_num)
                     selection_window.chequing_button.grid(row=0, column=1, padx=5, pady=5)
                 if 'term saving' == repr(item):
-                    print(item)
+                    self.term_num = item.acc_num
                     selection_window.term_saving_button.grid(row=0, column=2, padx=5, pady=5)
 
         if self.action == "print_info":
@@ -123,22 +124,14 @@ class Controller:
             selection_window.term_saving_button.config(command=self._term_saving_select)
         selection_window.back_button.config(command=self._main_page)
 
-        # for num in self.user_info:
-        #     for account in self.user_info[num]:
-        #         print(account.acc_num)
-        #         if account.acc_num == int(destination_entry):
-        #             account.balance -= money_entry
-        # output = success
-        # dest = ' to Account {}'.format(destination_entry)
-
     def _saving_select(self):
             self._amount_type_page('saving')
 
     def _chequing_select(self):
-            self._amount_type_page('chequing')
+        self._amount_type_page('chequing')
 
     def _term_saving_select(self):
-            self._amount_type_page('term saving')
+        self._amount_type_page('term saving')
 
     def _account_history_saving(self):
         self.master.destroy()
@@ -151,6 +144,7 @@ class Controller:
         self.master = Tk()
         acc_window_back =AccountInfo(self.master,"Chequing")
         acc_window_back.back_button.config(command=self._main_page)
+        Model(self.master)._read_log(self.cheq_num)
 
     def _account_history_termsaving(self):
         self.master.destroy()

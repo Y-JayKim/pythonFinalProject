@@ -1,3 +1,9 @@
+# account_info_show.py
+#
+# Showing transactions log
+#
+# Yeonjae Kim  /  Minsu Song
+#
 import sys
 
 sys.path.insert(0, './GUI/')
@@ -6,7 +12,6 @@ from tkinter import *
 class AccountInfo:
     def __init__(self, parent,acc_type):
         self.master = parent
-        # self.balance = balance
         self.master.title("Account Information Window")
 
         # Frames and its styles
@@ -39,7 +44,6 @@ class AccountInfo:
         self.name_listbox.config(yscrollcommand=self.name_scrollbar.set)
         self.name_listbox.pack(side=LEFT, fill=BOTH)
         self.name_scrollbar.pack(side=RIGHT, fill=Y)
-
 
 if __name__ == '__main__':
     root = Tk()
