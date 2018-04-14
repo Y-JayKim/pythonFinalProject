@@ -75,16 +75,16 @@ class BalanceWindow:
         self.number9_button.grid(row=2, column=3)
         self.number0_button.grid(row=3, column=2)
 
-        self.number0_button.config(command=self._num0)
-        self.number1_button.config(command=self._num1)
-        self.number2_button.config(command=self._num2)
-        self.number3_button.config(command=self._num3)
-        self.number4_button.config(command=self._num4)
-        self.number5_button.config(command=self._num5)
-        self.number6_button.config(command=self._num6)
-        self.number7_button.config(command=self._num7)
-        self.number8_button.config(command=self._num8)
-        self.number9_button.config(command=self._num9)
+        self.number0_button.config(command=lambda :self._num_after('0'))
+        self.number1_button.config(command=lambda :self._num_after('1'))
+        self.number2_button.config(command=lambda :self._num_after('2'))
+        self.number3_button.config(command=lambda :self._num_after('3'))
+        self.number4_button.config(command=lambda :self._num_after('4'))
+        self.number5_button.config(command=lambda :self._num_after('5'))
+        self.number6_button.config(command=lambda :self._num_after('6'))
+        self.number7_button.config(command=lambda :self._num_after('7'))
+        self.number8_button.config(command=lambda :self._num_after('8'))
+        self.number9_button.config(command=lambda :self._num_after('9'))
 
         # Bottom
         self.confirm_button.grid(row=2, column=0)
@@ -92,45 +92,9 @@ class BalanceWindow:
     def callback(self, event):
         self.current_clicking = event.widget
 
-    def _num0(self):
+    def _num_after(self, number):
         if self.current_clicking:
-            self.current_clicking.insert(END, '0')
-
-    def _num1(self):
-        if self.current_clicking:
-            self.current_clicking.insert(END, '1')
-
-    def _num2(self):
-        if self.current_clicking:
-            self.current_clicking.insert(END, '2')
-
-    def _num3(self):
-        if self.current_clicking:
-            self.current_clicking.insert(END, '3')
-
-    def _num4(self):
-        if self.current_clicking:
-            self.current_clicking.insert(END, '4')
-
-    def _num5(self):
-        if self.current_clicking:
-            self.current_clicking.insert(END, '5')
-
-    def _num6(self):
-        if self.current_clicking:
-            self.current_clicking.insert(END, '6')
-
-    def _num7(self):
-        if self.current_clicking:
-            self.current_clicking.insert(END, '7')
-
-    def _num8(self):
-        if self.current_clicking:
-            self.current_clicking.insert(END, '8')
-
-    def _num9(self):
-        if self.current_clicking:
-            self.current_clicking.insert(END, '9')
+            self.current_clicking.insert(END, number)
 
 
 if __name__ == "__main__":
