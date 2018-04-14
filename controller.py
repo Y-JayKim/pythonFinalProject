@@ -162,12 +162,11 @@ class Controller:
         output = "Invalid Input!"
         dest = ''
         if self.action == 'deposit':
-            acc_item.balance += money_entry
-            print(acc_item.balance)
+            acc_item.deposit(money_entry)
             output = success
         elif self.action == 'withdraw':
             if money_entry < acc_item.balance:
-                acc_item.balance -= money_entry
+                acc_item.withdraw(money_entry)
                 output = success
 
         elif self.action == 'transfer':
@@ -175,8 +174,8 @@ class Controller:
             if 1000 <= int(destination_entry) <= self.max_account and money_entry < acc_item.balance:
                 for account in self.user_info[self.sin]:
                     if account.acc_num == int(destination_entry):
-                        acc_item.balance -= money_entry
-                        account.balance += money_entry
+                        acc_item.withdraw(money_entry)
+                        account.deposit(money_entry)
                     output = success
                     dest = ' to Account {}'.format(destination_entry)
 
