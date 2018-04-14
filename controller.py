@@ -34,13 +34,21 @@ class Controller:
         for person in self.user_info:
             self.max_account += len(self.user_info[person])
 
+        self._login_window()
+
+# ---------------------------------SignIn Page function ----------------------------------------------------
+    def _before_login(self):
+        self.master.destroy()
+        self.master = Tk()
+        self._login_window()
+
+    def _login_window(self):
         self.LoginWindow = LoginWindow(self.master)
         self.LoginWindow.submit_button.config(command=self._login_page)
         self.LoginWindow.password_entry.bind("<Return>", self._login_page)
         self.LoginWindow.register_lost_label.bind("<Button-1>", self._lost_register)
         self.LoginWindow.qr_button.config(command=self.qr_login)
 
-# ---------------------------------SignIn Page function ----------------------------------------------------
     def _login_page(self, event=None):
         self.sin = self.LoginWindow.username_entry.get()
         self.pin = self.LoginWindow.password_entry.get()
@@ -71,6 +79,7 @@ class Controller:
         main_window.right_top_button.config(command=self.transfer)
         main_window.right_mid_button.config(command=self.print_info)
         main_window.right_bottom_button.config(command=self.help)
+        main_window.log_out_button.config(command=self._before_login)
 
     def deposit(self):
         self.action = "deposit"
