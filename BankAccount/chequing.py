@@ -14,13 +14,13 @@ class Chequing(Account):
     def __init__(self, name, balance=0):
         super().__init__(name, balance)
 
-    def withdraw(self, amount):
-        self.negative_check(amount)
-        if self.cheque(amount):
-            self.transaction.write_transaction("withdraw:" + str(amount))
-            self.overdraft()
-        else:
-            print("Insufficient Funds")
+    # def withdraw(self, amount):
+    #     self.negative_check(amount)
+    #     if self.cheque(amount):
+    #         self.transaction.write_transaction("withdraw:" + str(amount))
+    #         self.overdraft()
+    #     else:
+    #         print("Insufficient Funds")
 
     def post_cheque(self, amount):
         self.negative_check(amount)

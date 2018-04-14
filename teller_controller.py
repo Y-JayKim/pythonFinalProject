@@ -65,7 +65,6 @@ class TellerController:
 
     def _save_file(self):
         self.model.write_userinfo()
-        print(self.user_dict)
 
     def create(self):
         new_account = CreateView(self.user_dict)
@@ -90,7 +89,6 @@ class TellerController:
                 self.model.write_password(sin, '123')
             self.model.write_log(current_account.acc_num)
 
-
     def delete_account(self):
         remove_account = DeleteView(self.user_dict)
         info = remove_account.deletion_info
@@ -101,7 +99,10 @@ class TellerController:
             self.user_dict[info['sin']].pop(int(info['ind']))
 
     def show_transaction(self):
-        TransactionView(self.user_dict)
+        t = TransactionView(self.user_dict)
+
+        if not t.account_exist:
+            t.not_exist()
 
     def change_password(self):
         new_password = ChangePasswordView(self.user_password)
