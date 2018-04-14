@@ -134,7 +134,7 @@ class Controller:
         acc_window_back = AccountInfo(self.master, repr(acc_item))
         acc_window_back.back_button.config(command=self._main_page)
 
-        transaction_log = self.data.read_write_log(acc_item.acc_num)
+        transaction_log = self.data.read_log(acc_item.acc_num)
         for each_log in transaction_log:
             each_line = ("You {} ${} on {}".format(each_log[0], each_log[1], each_log[-1]))
             acc_window_back.name_listbox.insert(0, each_line)

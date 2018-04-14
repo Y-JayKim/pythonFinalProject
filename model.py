@@ -60,7 +60,7 @@ class Model:
             for row in csv_file:
                 self.manager_account[self.decrypting_letters(row[0])] = self.decrypting_letters(row[1])
 
-    def read_write_log(self, acc_num):
+    def read_log(self, acc_num):
         history_list = []
         with open(str(acc_num)+"_log.txt") as file:
             history = file.read()
