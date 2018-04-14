@@ -5,7 +5,6 @@
 # Yeonjae Kim  /  Minsu Song
 #
 from tkinter import *
-from main_menu import MainMenu
 
 
 class LoginWindow:
