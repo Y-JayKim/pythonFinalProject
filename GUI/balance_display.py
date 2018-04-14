@@ -20,7 +20,7 @@ class AccountBalance:
         self.balance_frame = Frame(self.master)
 
         self.top_frame.grid(row=0, sticky=W + E,pady=(0,10))
-        self.balance_frame.grid(row=1,padx=(50,0),pady=(0,20))
+        self.balance_frame.grid(row=1,padx=50,pady=(0,20))
 
         self.back_button = Button(self.top_frame, text="<-", width=3, height=1)
         self.back_button.grid(row=0, column=0)
