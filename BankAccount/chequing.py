@@ -17,7 +17,7 @@ class Chequing(Account):
     def withdraw(self, amount):
         self.negative_check(amount)
         if self.cheque(amount):
-            self.transaction.write_transaction("withdraw:" + str(-amount))
+            self.transaction.write_transaction("withdraw:" + str(amount))
             self.overdraft()
         else:
             print("Insufficient Funds")
@@ -25,7 +25,7 @@ class Chequing(Account):
     def post_cheque(self, amount):
         self.negative_check(amount)
         if self.cheque(amount):
-            self.transaction.write_transaction("cheque:" + str(-amount))
+            self.transaction.write_transaction("cheque:" + str(amount))
             self.overdraft()
         else:
             self._balance += BOUNCED_FEE

@@ -72,11 +72,10 @@ class TellerController:
         sin = new_account.sin
         account_type = new_account.account_type
 
-        if sin and account_type:
-            if sin not in self.user_dict:
-                self.model.write_password(sin, '123')
-                self.user_dict[sin] = []
+        if sin not in self.user_password:
+            self.model.write_password(sin, '123')
 
+        if sin and account_type:
             if account_type == 'chequing':
                 self.user_dict[sin].append(Chequing(sin))
             elif account_type == 'saving':

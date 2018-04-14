@@ -19,14 +19,13 @@ class Account:
         self._balance = int(balance)
         self.acc_num = Account.__NEXT_ACCT_NUM
         self.transaction = TransactionLog(self.acc_num)
-        self.transaction.write_transaction("deposit:"+str(balance))
         Account.__NEXT_ACCT_NUM += 1
 
     def withdraw(self, amount):
         self.negative_check(amount)
         if self._balance - amount > 0:
             self._balance = self._balance - amount
-            self.transaction.write_transaction("withdraw:"+str(-amount))
+            self.transaction.write_transaction("withdraw:"+str(amount))
         else:
             print("Insufficient Funds")
 

@@ -22,11 +22,15 @@ class CreateView:
 
             for account in ACCOUNTS:
                 if account == self.account_selection:
-                    self._create_account(account)
+                    if len(self.user_dict) != 0:
+                        self._create_account(account)
                     return
             print('\nWrong account. Please Select One of These: {}\n'.format(ACCOUNTS))
 
     def _create_account(self, account_option):
+        if self.sin not in self.user_dict:
+            self.user_dict[self.sin] = []
+
         for account in self.user_dict[self.sin]:
             if account_option == repr(account):
                 print('\nThe client already has {} account\n'.format(repr(account)))
