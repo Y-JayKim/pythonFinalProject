@@ -30,7 +30,6 @@ class CreateView:
     def _create_account(self, account_option):
         if self.sin not in self.user_dict:
             self.user_dict[self.sin] = []
-            self.
         for account in self.user_dict[self.sin]:
             if account_option == repr(account):
                 print('\nThe client already has {} account\n'.format(repr(account)))

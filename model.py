@@ -15,7 +15,6 @@ from term_saving import TermSaving
 
 class Model:
     def __init__(self):
-        pass
         self.user_dict = {}
         self.user_password = {}
         self.manager_account = {}
@@ -68,6 +67,10 @@ class Model:
                 history_list.append(item.split(':'))
         return history_list[:-1]
 
+    def write_log(self, acc_num):
+        with open(str(acc_num)+'_log.txt', 'w') as file:
+            file.write('')
+
     def _read_password(self):
         with open(USER_ACCOUNT_FILE, 'r') as file:
             data = csv.reader(file)
@@ -107,3 +110,4 @@ class Model:
 
 if __name__ == '__main__':
     m = Model()
+    m.write_log(10000)

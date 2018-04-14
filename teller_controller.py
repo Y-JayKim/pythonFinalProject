@@ -71,19 +71,25 @@ class TellerController:
         new_account = CreateView(self.user_dict)
         sin = new_account.sin
         account_type = new_account.account_type
-
-        if sin not in self.user_password:
-            self.model.write_password(sin, '123')
+        current_account = ''
 
         if sin and account_type:
             if account_type == 'chequing':
-                self.user_dict[sin].append(Chequing(sin))
+                current_account = Chequing(sin)
+                self.user_dict[sin].append(current_account)
             elif account_type == 'saving':
-                self.user_dict[sin].append(Saving(sin))
+                current_account = Saving(sin)
+                self.user_dict[sin].append(current_account)
             elif account_type == 'term saving':
-                self.user_dict[sin].append(TermSaving(sin))
+                current_account = TermSaving(sin)
+                self.user_dict[sin].append(current_account)
 
             new_account.notice()
+
+            if sin not in self.user_password:
+                self.model.write_password(sin, '123')
+            self.model.write_log(current_account.acc_num)
+
 
     def delete_account(self):
         remove_account = DeleteView(self.user_dict)
