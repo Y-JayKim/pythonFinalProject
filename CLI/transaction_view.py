@@ -4,7 +4,7 @@ from constant import *
 class TransactionView:
     def __init__(self, user_dict):
         self.user_dict = user_dict
-
+        self.account_exist = None
         try:
             self.sin = input("Please Enter the SIN:\t")
         except ValueError:
@@ -14,10 +14,15 @@ class TransactionView:
             account_choice = input('Please enter account you want to show transactions:\t')
             for account in self.user_dict[self.sin]:
                 if account_choice == repr(account):
+                    self.account_exist = True
                     for nam, amo, day in account.get_transaction:
                         print("%-15s $%-15s @%-15s" % (nam, amo, day))
+
         else:
             print('\nThe Client that matches with the SIN does not exist \n')
+
+    def not_exist(self):
+        print("\nThe account is not exist\n")
 
 
 if __name__ == '__main__':
