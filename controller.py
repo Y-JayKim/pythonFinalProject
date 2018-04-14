@@ -154,17 +154,16 @@ class Controller:
             self.balance_window.destination_entry.bind("<Button-1>", self.balance_window.callback)
 
         self.balance_window.back_button.config(command=self._main_page)
-        self.balance_window.confirm_button.config(command=lambda : self._amount_type_page(acc_item))
+        self.balance_window.confirm_button.config(command=lambda : self._confirm_popup(acc_item))
 
     def _confirm_popup(self, acc_item):
         money_entry = int(self.balance_window.input_entry.get())
-        accounts = self.user_info[self.sin]
         success = "You just {} ${}".format(self.action, money_entry)
         output = "Invalid Input!"
         dest = ''
-
         if self.action == 'deposit':
             acc_item.balance += money_entry
+            print(acc_item.balance)
             output = success
         elif self.action == 'withdraw':
             if money_entry < acc_item.balance:
@@ -173,12 +172,13 @@ class Controller:
 
         elif self.action == 'transfer':
             destination_entry = str(self.balance_window.destination_entry.get())
-
             if 1000 <= int(destination_entry) <= self.max_account and money_entry < acc_item.balance:
-                if acc_item.acc_num == int(destination_entry):
-                    acc_item.balance -= money_entry
-                output = success
-                dest = ' to Account {}'.format(destination_entry)
+                for account in self.user_info[self.sin]:
+                    if account.acc_num == int(destination_entry):
+                        acc_item.balance -= money_entry
+                        account.balance += money_entry
+                    output = success
+                    dest = ' to Account {}'.format(destination_entry)
 
         if output != "Invalid Input!":
             self.data.write_userinfo()
