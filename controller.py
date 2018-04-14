@@ -20,7 +20,6 @@ from help_page import Help
 from balance_display import AccountBalance
 
 
-
 class Controller:
     def __init__(self, parent):
         self.master = parent
@@ -101,64 +100,51 @@ class Controller:
         self.master.destroy()
         self.master = Tk()
         selection_window = SelectionWindow(self.master, self.action)
+        exist_account = {}
+
         if len(self.user_info[self.sin]) > 0:
             for item in self.user_info[self.sin]:
                 if 'saving' == repr(item):
-                    self.action_acc_num = item.acc_num
-                    self.acc_saving = str(repr(item))
+                    exist_account["saving"] = item
                     selection_window.saving_button.grid(row=0, column=0, padx=5, pady=5)
                 if 'chequing' == repr(item):
-                    self.action_acc_num=str(item.acc_num)
-                    self.acc_saving=str(repr(item))
                     selection_window.chequing_button.grid(row=0, column=1, padx=5, pady=5)
+                    exist_account["chequing"] = item
                 if 'term saving' == repr(item):
-                    self.action_acc_num = item.acc_num
-                    self.acc_saving = str(repr(item))
                     selection_window.term_saving_button.grid(row=0, column=2, padx=5, pady=5)
+                    exist_account["term saving"] = item
+        else:
+            messagebox.showinfo("warning", "You do not have any account!")
+            self._main_page()
 
         if self.action == "print_info":
-            selection_window.saving_button.config(command=self._account_history_termsaving)
-            selection_window.chequing_button.config(command=self._account_history_termsaving)
-            selection_window.term_saving_button.config(command=self._account_history_termsaving)
+            selection_window.saving_button.config(command=lambda :self._account_history_termsaving(exist_account["saving"]))
+            selection_window.chequing_button.config(command=lambda :self._account_history_termsaving(exist_account["chequing"]))
+            selection_window.term_saving_button.config(command=lambda :self._account_history_termsaving(exist_account["term saving"]))
         else:
-            selection_window.saving_button.config(command=self._amount_type_page)
-            selection_window.chequing_button.config(command=self._amount_type_page)
-            selection_window.term_saving_button.config(command=self._amount_type_page)
+            selection_window.saving_button.config(command=lambda : self._amount_type_page(exist_account['saving']))
+            selection_window.chequing_button.config(command=lambda : self._amount_type_page(exist_account['chequing']))
+            selection_window.term_saving_button.config(command=lambda : self._amount_type_page(exist_account['term saving']))
+
         selection_window.back_button.config(command=self._main_page)
 
-    #이거 이렇게 해도 가능한가요?? line 125~127 하고 130~140 체크부탁드릴게요
-    # def _saving_select(self):
-    #         self._amount_type_page(self.acc_saving)
-            # self._amount_type_page('saving')
-
-    # def _chequing_select(self):
-    #     self._amount_type_page(self.acc_saving)
-        # self._amount_type_page('chequing')
-
-    # def _term_saving_select(self):
-    #     self._amount_type_page(self.acc_saving)
-        # self._amount_type_page('term saving')
-
-    def _account_history_termsaving(self):
+    def _account_history_termsaving(self, acc_item):
         self.master.destroy()
         self.master = Tk()
-        acc_window_back=AccountInfo(self.master,self.acc_saving)
+        acc_window_back = AccountInfo(self.master, repr(acc_item))
         acc_window_back.back_button.config(command=self._main_page)
 
-        transaction_log = self.data.read_write_log(self.action_acc_num)
+        transaction_log = self.data.read_write_log(acc_item.acc_num)
         for each_log in transaction_log:
-            each_line=("You {} ${} on {}".format(each_log[0], each_log[1], each_log[-1]))
+            each_line = ("You {} ${} on {}".format(each_log[0], each_log[1], each_log[-1]))
             acc_window_back.name_listbox.insert(0, each_line)
 
 # ---------------------------------------Amount Input-----------------------------------------
-    def _amount_type_page(self):
+    def _amount_type_page(self, acc_item):
         self.master.destroy()
         self.master = Tk()
 
-        for item in self.user_info[self.sin]:
-            if repr(item) == self.acc_saving:
-                self.current_option = self.acc_saving
-                self.balance_window = BalanceWindow(self.master, self.action, item.balance)
+        self.balance_window = BalanceWindow(self.master, self.action, acc_item.balance)
 
         if self.action == 'transfer':
             self.balance_window.account_label = Label(self.balance_window.mid1_frame, text="Destination Account")
@@ -168,36 +154,31 @@ class Controller:
             self.balance_window.destination_entry.bind("<Button-1>", self.balance_window.callback)
 
         self.balance_window.back_button.config(command=self._main_page)
-        self.balance_window.confirm_button.config(command=self._confirm_popup)
+        self.balance_window.confirm_button.config(command=lambda : self._amount_type_page(acc_item))
 
-    def _confirm_popup(self):
+    def _confirm_popup(self, acc_item):
         money_entry = int(self.balance_window.input_entry.get())
         accounts = self.user_info[self.sin]
         success = "You just {} ${}".format(self.action, money_entry)
         output = "Invalid Input!"
         dest = ''
 
-        for index in range(len(accounts)):
-            if repr(accounts[index]) == self.current_option:
-                if self.action == 'deposit':
-                    accounts[index].balance += money_entry
-                    output = success
-                elif self.action == 'withdraw':
-                    if money_entry < accounts[index].balance:
-                        accounts[index].balance -= money_entry
-                        output = success
+        if self.action == 'deposit':
+            acc_item.balance += money_entry
+            output = success
+        elif self.action == 'withdraw':
+            if money_entry < acc_item.balance:
+                acc_item.balance -= money_entry
+                output = success
 
-                elif self.action == 'transfer':
-                    destination_entry = str(self.balance_window.destination_entry.get())
+        elif self.action == 'transfer':
+            destination_entry = str(self.balance_window.destination_entry.get())
 
-                    if 1000 <= int(destination_entry) <= self.max_account and \
-                                                                money_entry < accounts[index].balance:
-                        for num in self.user_info:
-                            for account in self.user_info[num]:
-                                if account.acc_num == int(destination_entry):
-                                    account.balance -= money_entry
-                        output = success
-                        dest = ' to Account {}'.format(destination_entry)
+            if 1000 <= int(destination_entry) <= self.max_account and money_entry < acc_item.balance:
+                if acc_item.acc_num == int(destination_entry):
+                    acc_item.balance -= money_entry
+                output = success
+                dest = ' to Account {}'.format(destination_entry)
 
         if output != "Invalid Input!":
             self.data.write_userinfo()
@@ -234,6 +215,7 @@ class Controller:
             self.balance_show_label = Label(self.existing_acc_window.balance_frame, text=item.balance)
             self.balance_show_label.grid(row=row1, column=1, pady=10)
         self.existing_acc_window.back_button.config(command=self._main_page)
+
 
 if __name__ == '__main__':
     root = Tk()

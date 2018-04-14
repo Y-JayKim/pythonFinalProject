@@ -93,34 +93,44 @@ class BalanceWindow:
         self.current_clicking = event.widget
 
     def _num0(self):
-        self.current_clicking.insert(END, '0')
+        if self.current_clicking:
+            self.current_clicking.insert(END, '0')
 
     def _num1(self):
-        self.current_clicking.insert(END, '1')
+        if self.current_clicking:
+            self.current_clicking.insert(END, '1')
 
     def _num2(self):
-        self.current_clicking.insert(END, '2')
+        if self.current_clicking:
+            self.current_clicking.insert(END, '2')
 
     def _num3(self):
-        self.current_clicking.insert(END, '3')
+        if self.current_clicking:
+            self.current_clicking.insert(END, '3')
 
     def _num4(self):
-        self.current_clicking.insert(END, '4')
+        if self.current_clicking:
+            self.current_clicking.insert(END, '4')
 
     def _num5(self):
-        self.current_clicking.insert(END, '5')
+        if self.current_clicking:
+            self.current_clicking.insert(END, '5')
 
     def _num6(self):
-        self.current_clicking.insert(END, '6')
+        if self.current_clicking:
+            self.current_clicking.insert(END, '6')
 
     def _num7(self):
-        self.current_clicking.insert(END, '7')
+        if self.current_clicking:
+            self.current_clicking.insert(END, '7')
 
     def _num8(self):
-        self.current_clicking.insert(END, '8')
+        if self.current_clicking:
+            self.current_clicking.insert(END, '8')
 
     def _num9(self):
-        self.current_clicking.insert(END, '9')
+        if self.current_clicking:
+            self.current_clicking.insert(END, '9')
 
 
 if __name__ == "__main__":

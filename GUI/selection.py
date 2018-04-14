@@ -20,7 +20,7 @@ class SelectionWindow:
         self.bottom_frame.grid(row=1, padx=10, pady=30)
 
         # Widgets and Bind to Events
-        self.explanation_label = Label(self.top_frame, \
+        self.explanation_label = Label(self.top_frame,
                                        text='Please Select Account You want to {}'.format(option))
         self.back_button = Button(self.top_frame, text="<-", width=3, height=1)
         self.saving_button = Button(self.bottom_frame, text="Saving", width=10, height=5)
@@ -28,7 +28,7 @@ class SelectionWindow:
         self.term_saving_button = Button(self.bottom_frame, text="Term Saving", width=10, height=5)
         # Place Widgets On Window
         # Top
-        self.explanation_label.grid(row=1, column=1, padx=(10,20), pady=5)
+        self.explanation_label.grid(row=1, column=1, padx=(10, 20), pady=5)
         self.back_button.grid(row=0, column=0)
 
         # Bottom

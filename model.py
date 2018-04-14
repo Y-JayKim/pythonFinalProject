@@ -104,5 +104,6 @@ class Model:
             outcome += chr(int(i))
         return outcome
 
+
 if __name__ == '__main__':
     m = Model()

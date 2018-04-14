@@ -7,7 +7,7 @@ sys.path.insert(0, './BankAccount/')
 from chequing import Chequing
 from saving import Saving
 from term_saving import TermSaving
-sys.path.inser(0, './CLI')
+sys.path.insert(0, './CLI')
 from create_view import CreateView
 from delete_view import DeleteView
 from transaction_view import TransactionView

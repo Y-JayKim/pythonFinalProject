@@ -9,6 +9,7 @@ import sys
 sys.path.insert(0, './GUI/')
 from tkinter import *
 
+
 class AccountBalance:
     def __init__(self, parent):
         self.master = parent
