@@ -1,3 +1,10 @@
+# help_page.py
+#
+# Help page for users
+#
+# Yeonjae Kim  /  Minsu Song
+#
+
 import sys
 sys.path.insert(0, './GUI/')
 from tkinter import *

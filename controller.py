@@ -1,6 +1,6 @@
-# login_page.py
+# controller.py
 #
-# Log in window for Account.py
+# Starting page of the program
 #
 # Yeonjae Kim  /  Minsu Song
 # Transfer feature, QR code, Encryption, sin and pin add or del, print account info, one more button on main,
