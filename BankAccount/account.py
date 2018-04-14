@@ -34,14 +34,6 @@ class Account:
         self._balance += amount
         self.transaction.write_transaction("deposit:"+str(amount))
 
-    def cheque(self, amount):
-        self.negative_check(amount)
-        if (self._balance - amount) < CHEQUING_NEGATIVE:
-            return False
-        else:
-            self._balance -= amount
-            return True
-
     @property
     def balance(self):
         return self._balance
